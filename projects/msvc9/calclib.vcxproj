@@ -1,0 +1,359 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug MB|Win32">
+      <Configuration>Debug MB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release MB|Win32">
+      <Configuration>Release MB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{50F0B5FA-6EAE-4453-8456-7331572925A7}</ProjectGuid>
+    <RootNamespace>calclib</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'">..\..\build\Debug MultiByte\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TargetDir)$(TargetName).tmp\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'">$(TargetDir)$(TargetName).tmp\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'">..\..\build\Release MultiByte\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(TargetDir)$(TargetName).tmp\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'">$(TargetDir)$(TargetName).tmp\</IntDir>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(HASP);$(WTL)\include;$(SHINY)\include;$(WXWIDGETS)\contrib\include;$(WXWIDGETS)\include\msvc;$(WXWIDGETS)\include;$(CAIRO)\cairo-1.10.0\src;$(FIREBIRD)\include;$(XERCES)\include;$(BOOST);$(FFTW);$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'">$(HASP);$(WTL)\include;$(SHINY)\include;$(WXWIDGETS)\contrib\include;$(WXWIDGETS)\include\msvc;$(WXWIDGETS)\include;$(CAIRO)\src;$(FIREBIRD)\include;$(XERCES)\include;$(BOOST);$(FFTW);$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(HASP);$(WTL)\include;$(SHINY)\include;$(WXWIDGETS)\contrib\include;$(WXWIDGETS)\include\msvc;$(WXWIDGETS)\include;$(CAIRO)\cairo-1.10.0\src;$(FIREBIRD)\include;$(XERCES)\include;$(BOOST);$(FFTW);$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'">$(HASP);$(WTL)\include;$(SHINY)\include;$(WXWIDGETS)\contrib\include;$(WXWIDGETS)\include\msvc;$(WXWIDGETS)\include;$(CAIRO)\src;$(FIREBIRD)\include;$(XERCES)\include;$(BOOST);$(FFTW);$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(XALAN)\lib;$(HASP)\msc\obj;$(SHINY)\lib;$(WXWIDGETS)\contrib\lib;$(WXWIDGETS)\lib\vc_lib;$(FIREBIRD)\lib;$(XERCES)\lib;$(CAIRO)\msw\Release;$(FFTW)\;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'">$(XALAN)\lib;$(HASP)\msc\obj;$(SHINY)\lib;$(WXWIDGETS)\contrib\lib;$(WXWIDGETS)\lib\vc_lib;$(FIREBIRD)\lib;$(XERCES)\lib;$(CAIRO)\msw\Release;$(FFTW)\;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(XALAN)\lib;$(HASP)\msc\obj;$(SHINY)\lib;$(WXWIDGETS)\contrib\lib;$(WXWIDGETS)\lib\vc_lib;$(FIREBIRD)\lib;$(XERCES)\lib;$(CAIRO)\msw\Release;$(FFTW)\;$(BOOST)\stage\lib\;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'">$(XALAN)\lib;$(HASP)\msc\obj;$(SHINY)\lib;$(WXWIDGETS)\contrib\lib;$(WXWIDGETS)\lib\vc_lib;$(FIREBIRD)\lib;$(XERCES)\lib;$(CAIRO)\msw\Release;$(FFTW)\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/MP4 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\grlib;..\..\baselib;..\..\c4flib;..\..\dblib;..\..\optlib;..\..\version;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OpenMPSupport>false</OpenMPSupport>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>libfftw3-3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)calclib.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/MP4 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\grlib;..\..\baselib;..\..\c4flib;..\..\dblib;..\..\optlib;..\..\version;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OpenMPSupport>false</OpenMPSupport>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>libfftw3-3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)calclib.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <BuildLog>
+      <Path>$(IntDir)calclib_log.htm</Path>
+    </BuildLog>
+    <ClCompile>
+      <AdditionalOptions>/MP4 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>..\..\dblib;..\..\baselib;..\..\c4flib;..\..\version;..\..\grlib;..\..\optlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OpenMPSupport>true</OpenMPSupport>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>libfftw3-3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)calclib.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'">
+    <BuildLog>
+      <Path>$(IntDir)calclib_log.htm</Path>
+    </BuildLog>
+    <ClCompile>
+      <AdditionalOptions>/MP4 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>..\..\dblib;..\..\baselib;..\..\c4flib;..\..\version;..\..\grlib;..\..\optlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OpenMPSupport>true</OpenMPSupport>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>libfftw3-3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)calclib.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </Reference>
+    <Reference Include="System.Data">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </Reference>
+    <Reference Include="System.Xml">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\calclib\canting.cpp" />
+    <ClCompile Include="..\..\calclib\DataExport.cpp" />
+    <ClCompile Include="..\..\calclib\DataExportFunctions.cpp" />
+    <ClCompile Include="..\..\calclib\DataExportRepair.cpp" />
+    <ClCompile Include="..\..\calclib\DataExportStation.cpp" />
+    <ClCompile Include="..\..\calclib\DebugAprinfo.cpp" />
+    <ClCompile Include="..\..\calclib\DebugCurves.cpp" />
+    <ClCompile Include="..\..\calclib\DebugOvrs.cpp" />
+    <ClCompile Include="..\..\calclib\DebugPrNgr.cpp" />
+    <ClCompile Include="..\..\calclib\DebugStat.cpp" />
+    <ClCompile Include="..\..\calclib\error_messages.cpp" />
+    <ClCompile Include="..\..\calclib\markers.cpp" />
+    <ClCompile Include="..\..\calclib\oversteps.cpp" />
+    <ClCompile Include="..\..\calclib\parameters.cpp" />
+    <ClCompile Include="..\..\calclib\rtparam.cpp" />
+    <ClCompile Include="..\..\calclib\rtsockets.cpp" />
+    <ClCompile Include="..\..\calclib\situation.cpp" />
+    <ClCompile Include="..\..\calclib\stationConv.cpp" />
+    <ClCompile Include="..\..\calclib\tables.cpp" />
+    <ClCompile Include="..\..\calclib\UpdateDB.cpp" />
+    <ClCompile Include="..\..\calclib\VAprinfo.cpp" />
+    <ClCompile Include="..\..\calclib\VAprinfoDB.cpp" />
+    <ClCompile Include="..\..\calclib\VAprinfoFile.cpp" />
+    <ClCompile Include="..\..\calclib\VAprinfoRecord.cpp" />
+    <ClCompile Include="..\..\calclib\VBasicParameter.cpp" />
+    <ClCompile Include="..\..\calclib\VCalcOptions.cpp" />
+    <ClCompile Include="..\..\calclib\VComment.cpp" />
+    <ClCompile Include="..\..\calclib\VControlArea.cpp" />
+    <ClCompile Include="..\..\calclib\VCoordPoint.cpp" />
+    <ClCompile Include="..\..\calclib\VCorrupt.cpp" />
+    <ClCompile Include="..\..\calclib\VCurve.cpp" />
+    <ClCompile Include="..\..\calclib\VCurveExport.cpp" />
+    <ClCompile Include="..\..\calclib\VCurveList.cpp" />
+    <ClCompile Include="..\..\calclib\VDataSet.cpp" />
+    <ClCompile Include="..\..\calclib\VDiffWidth.cpp" />
+    <ClCompile Include="..\..\calclib\VExportImportTextFile.cpp" />
+    <ClCompile Include="..\..\calclib\VFileMark.cpp" />
+    <ClCompile Include="..\..\calclib\VHistory.cpp" />
+    <ClCompile Include="..\..\calclib\VHtml.cpp" />
+    <ClCompile Include="..\..\calclib\VKmResult.cpp" />
+    <ClCompile Include="..\..\calclib\VLineList.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</MinimalRebuild>
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'">false</MinimalRebuild>
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Sync</ExceptionHandling>
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'">Sync</ExceptionHandling>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'">
+      </PrecompiledHeader>
+      <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ProgramDatabase</DebugInformationFormat>
+      <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'">ProgramDatabase</DebugInformationFormat>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'">false</CompileAsManaged>
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</MinimalRebuild>
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'">false</MinimalRebuild>
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Sync</ExceptionHandling>
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'">Sync</ExceptionHandling>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Default</BasicRuntimeChecks>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'">Default</BasicRuntimeChecks>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'">
+      </PrecompiledHeader>
+      <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </DebugInformationFormat>
+      <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'">
+      </DebugInformationFormat>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="..\..\calclib\VOperationResult.cpp" />
+    <ClCompile Include="..\..\calclib\VOpMark.cpp" />
+    <ClCompile Include="..\..\calclib\VOverstep.cpp" />
+    <ClCompile Include="..\..\calclib\VParamCorrections.cpp" />
+    <ClCompile Include="..\..\calclib\VParameter.cpp" />
+    <ClCompile Include="..\..\calclib\VPer.cpp" />
+    <ClCompile Include="..\..\calclib\VPerLine.cpp" />
+    <ClCompile Include="..\..\calclib\VPlan.cpp" />
+    <ClCompile Include="..\..\calclib\VPlanElemList.cpp" />
+    <ClCompile Include="..\..\calclib\VPrNgrAreas.cpp" />
+    <ClCompile Include="..\..\calclib\VProfile.cpp" />
+    <ClCompile Include="..\..\calclib\VRemoteFile.cpp" />
+    <ClCompile Include="..\..\calclib\VRepairEstimate.cpp" />
+    <ClCompile Include="..\..\calclib\VSidewayList.cpp" />
+    <ClCompile Include="..\..\calclib\VStatistics.cpp" />
+    <ClCompile Include="..\..\calclib\VUklon.cpp" />
+    <ClCompile Include="..\..\calclib\VWear.cpp" />
+    <ClCompile Include="..\..\calclib\VXMLReportBuilder.cpp" />
+    <ClCompile Include="..\..\calclib\VXMLRouteList.cpp" />
+    <ClCompile Include="..\..\calclib\VZazor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\calclib\calclib.h" />
+    <ClInclude Include="..\..\calclib\canting.h" />
+    <ClInclude Include="..\..\calclib\DataExport.h" />
+    <ClInclude Include="..\..\calclib\DataExportFunctions.h" />
+    <ClInclude Include="..\..\calclib\DebugAprinfo.h" />
+    <ClInclude Include="..\..\calclib\DebugCurves.h" />
+    <ClInclude Include="..\..\calclib\DebugOvrs.h" />
+    <ClInclude Include="..\..\calclib\DebugPrNgr.h" />
+    <ClInclude Include="..\..\calclib\DebugStat.h" />
+    <ClInclude Include="..\..\calclib\error_messages.h" />
+    <ClInclude Include="..\..\calclib\inm.h" />
+    <ClInclude Include="..\..\calclib\markers.h" />
+    <ClInclude Include="..\..\calclib\oversteps.h" />
+    <ClInclude Include="..\..\calclib\parameters.h" />
+    <ClInclude Include="..\..\calclib\rtparam.h" />
+    <ClInclude Include="..\..\calclib\rtsockets.h" />
+    <ClInclude Include="..\..\calclib\situation.h" />
+    <ClInclude Include="..\..\calclib\stationConv.h" />
+    <ClInclude Include="..\..\calclib\tables.h" />
+    <ClInclude Include="..\..\calclib\UpdateDB.h" />
+    <ClInclude Include="..\..\calclib\VAprinfo.h" />
+    <ClInclude Include="..\..\calclib\VAprinfoRecord.h" />
+    <ClInclude Include="..\..\calclib\VBasicParameter.h" />
+    <ClInclude Include="..\..\calclib\VCalcOptions.h" />
+    <ClInclude Include="..\..\calclib\VComment.h" />
+    <ClInclude Include="..\..\calclib\VControlArea.h" />
+    <ClInclude Include="..\..\calclib\VCoordPoint.h" />
+    <ClInclude Include="..\..\calclib\VCorrupt.h" />
+    <ClInclude Include="..\..\calclib\VCurve.h" />
+    <ClInclude Include="..\..\calclib\VCurveExport.h" />
+    <ClInclude Include="..\..\calclib\VCurveList.h" />
+    <ClInclude Include="..\..\calclib\VDataSet.h" />
+    <ClInclude Include="..\..\calclib\VDiffWidth.h" />
+    <ClInclude Include="..\..\calclib\VExportImportTextFile.h" />
+    <ClInclude Include="..\..\calclib\VFileMark.h" />
+    <ClInclude Include="..\..\calclib\VFunctionParser.h" />
+    <ClInclude Include="..\..\calclib\VHistory.h" />
+    <ClInclude Include="..\..\calclib\VHtml.h" />
+    <ClInclude Include="..\..\calclib\VKmResult.h" />
+    <ClInclude Include="..\..\calclib\VLineList.h" />
+    <ClInclude Include="..\..\calclib\VOperationResult.h" />
+    <ClInclude Include="..\..\calclib\VOpMark.h" />
+    <ClInclude Include="..\..\calclib\VOverstep.h" />
+    <ClInclude Include="..\..\calclib\VParamCorrections.h" />
+    <ClInclude Include="..\..\calclib\VParameter.h" />
+    <ClInclude Include="..\..\calclib\VPer.h" />
+    <ClInclude Include="..\..\calclib\VPerLine.h" />
+    <ClInclude Include="..\..\calclib\VPlan.h" />
+    <ClInclude Include="..\..\calclib\VPlanElemList.h" />
+    <ClInclude Include="..\..\calclib\VPrNgrAreas.h" />
+    <ClInclude Include="..\..\calclib\VProfile.h" />
+    <ClInclude Include="..\..\calclib\VRemoteFile.h" />
+    <ClInclude Include="..\..\calclib\VRepairEstimate.h" />
+    <ClInclude Include="..\..\calclib\VSidewayList.h" />
+    <ClInclude Include="..\..\calclib\VStatistics.h" />
+    <ClInclude Include="..\..\calclib\VUklon.h" />
+    <ClInclude Include="..\..\calclib\VWear.h" />
+    <ClInclude Include="..\..\calclib\VXMLReportBuilder.h" />
+    <ClInclude Include="..\..\calclib\VXMLRouteList.h" />
+    <ClInclude Include="..\..\calclib\VZazor.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="c4flib.vcxproj">
+      <Project>{19019ca1-af30-4f99-9ba8-05afd801145d}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

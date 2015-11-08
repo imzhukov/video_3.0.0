@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug MB|Win32">
+      <Configuration>Debug MB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release MB|Win32">
+      <Configuration>Release MB</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E483A376-9AE2-40D5-B78D-4C95A93C7450}</ProjectGuid>
+    <RootNamespace>video</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\build\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'">..\..\build\Debug MultiByte\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TargetDir)$(TargetName).tmp\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'">$(TargetDir)$(TargetName).tmp\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\build\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'">..\..\build\Release MultiByte\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(TargetDir)$(TargetName).tmp\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'">$(TargetDir)$(TargetName).tmp\</IntDir>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(WXWIDGETS)\contrib\include;$(WXWIDGETS)\include\msvc;$(WXWIDGETS)\include;$(BOOST);$(FFTW);$(OPENCV)\opencv\build\include\;$(FIREBIRD)\include\;$(SHINY)\include;$(CAIRO)\src;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'">$(WXWIDGETS)\contrib\include;$(WXWIDGETS)\include\msvc;$(WXWIDGETS)\include;$(BOOST);$(FFTW)\;$(OPENCV)\opencv\build\include\;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(WXWIDGETS)\contrib\include;$(WXWIDGETS)\include\msvc;$(WXWIDGETS)\include;$(BOOST);$(FFTW)\;$(OPENCV)\opencv\build\include\;$(FIREBIRD)\include;$(SHINY)\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'">$(WXWIDGETS)\contrib\include;$(WXWIDGETS)\include\msvc;$(WXWIDGETS)\include;$(BOOST);$(FFTW)\;$(OPENCV)\opencv\build\include\;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(WXWIDGETS)\contrib\lib;$(WXWIDGETS)\lib\vc_lib;$(OPENCV)\opencv\build\x86\vc10\lib\;$(FIREBIRD)\lib\;$(BOOST)\stage\lib\;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'">$(WXWIDGETS)\contrib\lib;$(WXWIDGETS)\lib\vc_lib;$(OPENCV)\opencv\build\x86\vc10\lib\;$(LibraryPath)</LibraryPath>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'">false</LinkIncremental>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(WXWIDGETS)\contrib\lib;$(WXWIDGETS)\lib\vc_lib;$(OPENCV)\opencv\build\x86\vc10\lib\;$(FIREBIRD)\lib\;$(BOOST)\stage\lib\;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'">$(WXWIDGETS)\contrib\lib;$(WXWIDGETS)\lib\vc_lib;$(OPENCV)\opencv\build\x86\vc10\lib\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\xpm;..\..\baselib;..\..\c4flib;..\..\calclib;$(JAI_SDK_INCLUDE);..\..\dblib;..\..\version;C:\Program Files\JAI\SDK\library\CPP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>baselib.lib;c4flib.lib;Jai_Factory.lib;dblib.lib;wxmsw30ud_core.lib;wxbase30ud.lib;comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;wsock32.lib;opencv_core249d.lib;opencv_highgui249d.lib;opencv_imgproc249d.lib;userenv.lib;fbclient_ms.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(JAI_SDK_LIB);..\..\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\xpm;..\..\baselib;..\..\c4flib;..\..\calclib;$(JAI_SDK_INCLUDE);..\..\version;C:\Program Files\JAI\SDK\library\CPP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>baselib.lib;c4flib.lib;Jai_Factory.lib;wxmsw28d_core.lib;wxbase28d.lib;comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;wsock32.lib;opencv_core249d.lib;opencv_highgui249d.lib;opencv_imgproc249d.lib;userenv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(JAI_SDK_LIB);..\..\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\xpm;..\..\baselib;..\..\c4flib;..\..\calclib;$(JAI_SDK_INCLUDE);..\..\dblib;..\..\version;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>baselib.lib;c4flib.lib;Jai_Factory.lib;dblib.lib;wxmsw30u_core.lib;wxbase30u.lib;comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;wsock32.lib;opencv_core249.lib;opencv_highgui249.lib;opencv_imgproc249.lib;userenv.lib;fbclient_ms.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(JAI_SDK_LIB);..\..\build\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <IgnoreSpecificDefaultLibraries>wxbase28ud.lib;wxmsw28ud_core.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\xpm;..\..\baselib;..\..\c4flib;..\..\calclib;$(JAI_SDK_INCLUDE);..\..\version;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>baselib.lib;c4flib.lib;Jai_Factory.lib;wxmsw28_core.lib;wxbase28.lib;comctl32.lib;rpcrt4.lib;winmm.lib;advapi32.lib;wsock32.lib;opencv_core249.lib;opencv_highgui249.lib;opencv_imgproc249.lib;userenv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(JAI_SDK_LIB);..\..\build\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <IgnoreSpecificDefaultLibraries>wxbase28u.lib;wxmsw28u_core.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\video\V4fCacheThread.cpp" />
+    <ClCompile Include="..\..\video\V4fDataSet.cpp" />
+    <ClCompile Include="..\..\video\V4fFrame.cpp" />
+    <ClCompile Include="..\..\video\V4fViewerDialog.cpp" />
+    <ClCompile Include="..\..\video\dbmodule.cpp" />
+    <ClCompile Include="..\..\video\V4fWriter.cpp" />
+    <ClCompile Include="..\..\video\VAviWriter.cpp" />
+    <ClCompile Include="..\..\video\VCameraControl.cpp" />
+    <ClCompile Include="..\..\video\VCameraProperties.cpp" />
+    <ClCompile Include="..\..\video\VCapture.cpp" />
+    <ClCompile Include="..\..\video\VCaptureJAI.cpp" />
+    <ClCompile Include="..\..\video\VCaptureRTSP.cpp" />
+    <ClCompile Include="..\..\video\VCaptureThread.cpp" />
+    <ClCompile Include="..\..\video\VCodeDPPThread.cpp" />
+    <ClCompile Include="..\..\video\VCoordinatesClient.cpp" />
+    <ClCompile Include="..\..\video\VCoordinatesRecord.cpp" />
+    <ClCompile Include="..\..\video\VCoordinatesThread.cpp" />
+    <ClCompile Include="..\..\video\video.cpp" />
+    <ClCompile Include="..\..\video\VCameraPropDialog.cpp" />
+    <ClCompile Include="..\..\video\VJpgWriter.cpp" />
+    <ClCompile Include="..\..\video\VMainPropDialog.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\video\dbmodule.h" />
+    <ClInclude Include="..\..\video\ExchangeCadre.h" />
+    <ClInclude Include="..\..\video\V4fCacheThread.h" />
+    <ClInclude Include="..\..\video\V4fDataSet.h" />
+    <ClInclude Include="..\..\video\V4fFrame.h" />
+    <ClInclude Include="..\..\video\V4fSynchronization.h" />
+    <ClInclude Include="..\..\video\V4fViewerDialog.h" />
+    <ClInclude Include="..\..\video\V4fWriter.h" />
+    <ClInclude Include="..\..\video\VAviWriter.h" />
+    <ClInclude Include="..\..\video\VBaseWriter.h" />
+    <ClInclude Include="..\..\video\VCameraControl.h" />
+    <ClInclude Include="..\..\video\VCameraProperties.h" />
+    <ClInclude Include="..\..\video\VCapture.h" />
+    <ClInclude Include="..\..\video\VCaptureJAI.h" />
+    <ClInclude Include="..\..\video\VCaptureRTSP.h" />
+    <ClInclude Include="..\..\video\VCaptureThread.h" />
+    <ClInclude Include="..\..\video\VCodeDPPThread.h" />
+    <ClInclude Include="..\..\video\VCoordinatesClient.h" />
+    <ClInclude Include="..\..\video\VCoordinatesRecord.h" />
+    <ClInclude Include="..\..\video\VDppSynchronization.h" />
+    <ClInclude Include="..\..\video\video.h" />
+    <ClInclude Include="..\..\video\VCameraPropDialog.h" />
+    <ClInclude Include="..\..\video\VMainPropDialog.h" />
+    <ClInclude Include="..\..\video\VJpgWriter.h" />
+    <ClInclude Include="..\..\video\VVideoOptions.h" />
+    <ClInclude Include="video_resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\version\version.vcxproj">
+      <Project>{33bf3442-bd62-40f7-bf4a-6e6a678c848f}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="baselib.vcxproj">
+      <Project>{31ed6082-a729-4dbc-a654-a13714fedbe7}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="c4flib.vcxproj">
+      <Project>{19019ca1-af30-4f99-9ba8-05afd801145d}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="calclib.vcxproj">
+      <Project>{50f0b5fa-6eae-4453-8456-7331572925a7}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="video.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Структура файла v4f.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
