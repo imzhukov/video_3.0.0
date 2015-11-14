@@ -28,6 +28,7 @@
 #define ID_V4F_VIEWER_RIGHT 506
 #define ID_V4F_VIEWER_ABSCOORDCTRL 507
 #define ID_V4F_VIEWER_KADRCTRL 508
+#define ID_V4F_VIEWER_EXPAVI 509
 
 class V4fViewerDialog : public wxDialog
 {
@@ -69,7 +70,7 @@ public:
 	//Ёкспорт текущего кадра в файл (.jpg)
 	void OnExportCurrentImg(wxCommandEvent & event);
 	//Ёкспорт текущего кадра в .avi
-	void OnExportToAVI(wx)
+	void OnExportToAvi(wxCommandEvent & event);
 	//–исование кадра
 	void OnPaint(wxPaintEvent & event);
 	DECLARE_EVENT_TABLE();

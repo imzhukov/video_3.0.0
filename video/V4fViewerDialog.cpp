@@ -8,6 +8,7 @@ BEGIN_EVENT_TABLE(V4fViewerDialog, wxDialog)
 	EVT_BUTTON(ID_V4F_VIEWER_LEFT, V4fViewerDialog::OnLeftButton)
 	EVT_BUTTON(ID_V4F_VIEWER_RIGHT, V4fViewerDialog::OnRightButton)
 	EVT_BUTTON(ID_V4F_VIEWER_EXPCURIMG, V4fViewerDialog::OnExportCurrentImg)
+	EVT_BUTTON(ID_V4F_VIEWER_EXPAVI, V4fViewerDialog::OnExportToAvi)
 	EVT_PAINT(V4fViewerDialog::OnPaint)
 END_EVENT_TABLE()
 
@@ -67,8 +68,8 @@ V4fViewerDialog::V4fViewerDialog(wxWindow * parent, std::string fileName, VRegis
 	topSizer->Add(screen, 1, wxALL | wxEXPAND, 10);
 
 	wxBoxSizer * buttonSizer = new wxBoxSizer(wxVERTICAL);
-	exportAllImg = new wxButton(this, ID_V4F_VIEWER_EXPALLIMG, L"Ёкспорт всех кадров", wxDefaultPosition, wxSize(140, 25));
-	buttonSizer->Add(exportAllImg, 0, wxALL, 10);
+	exportToAVI = new wxButton(this, ID_V4F_VIEWER_EXPALLIMG, L"Ёкспорт в .avi", wxDefaultPosition, wxSize(140, 25));
+	buttonSizer->Add(exportToAVI, 0, wxALL, 10);
 	exportCurrentImg = new wxButton(this, ID_V4F_VIEWER_EXPCURIMG, L"Ёкспорт текущего кадра", wxDefaultPosition, wxSize(140, 25));
 	buttonSizer->Add(exportCurrentImg, 0, wxALL, 10);
 	topSizer->Add(buttonSizer, 0, wxALL, 10);
@@ -241,6 +242,11 @@ void V4fViewerDialog::OnExportCurrentImg(wxCommandEvent & event)
 			image.SaveFile(dlg.GetPath(), wxBITMAP_TYPE_JPEG);
 		}
 	}
+	event.Skip();
+}
+
+void V4fViewerDialog::OnExportToAvi(wxCommandEvent & event)
+{
 	event.Skip();
 }
 
