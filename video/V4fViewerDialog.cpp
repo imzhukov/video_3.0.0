@@ -3,8 +3,8 @@
 //Диалог просмотра кадров из файла v4f
 BEGIN_EVENT_TABLE(V4fViewerDialog, wxDialog)
 	EVT_UPDATE_UI(ID_V4F_VIEWER_SLIDER,V4fViewerDialog::OnUpdateUI)
-	EVT_TEXT(ID_V4F_VIEWER_KMCTRL, V4fViewerDialog::OnWayCoordUpdate)
-	EVT_TEXT(ID_V4F_VIEWER_MCTRL, V4fViewerDialog::OnWayCoordUpdate)
+	//EVT_TEXT(ID_V4F_VIEWER_KMCTRL, V4fViewerDialog::OnWayCoordUpdate)
+	//EVT_TEXT(ID_V4F_VIEWER_MCTRL, V4fViewerDialog::OnWayCoordUpdate)
 	EVT_BUTTON(ID_V4F_VIEWER_LEFT, V4fViewerDialog::OnLeftButton)
 	EVT_BUTTON(ID_V4F_VIEWER_RIGHT, V4fViewerDialog::OnRightButton)
 	EVT_BUTTON(ID_V4F_VIEWER_EXPCURIMG, V4fViewerDialog::OnExportCurrentImg)
@@ -135,6 +135,38 @@ void V4fViewerDialog::OnUpdateUI(wxUpdateUIEvent & event)
 			{
 				this->kmCtrl->SetValue("0");
 				this->mCtrl->SetValue("0");
+			}
+			Refresh();
+			break;
+		}
+		case ID_V4F_VIEWER_KMCTRL:
+		case ID_V4F_VIEWER_MCTRL:
+		{
+			try
+			{
+				long km = _wtoi(kmCtrl->GetValue().c_str());
+				float m = _wtof(mCtrl->GetValue().c_str());
+				if(currentKm == km && currentm == m)
+				{
+					event.Skip();
+					return;
+				}
+				currentKm = km;
+				currentm = m;
+			}
+			catch(std::exception e)
+			{
+				LOG_ERROR(L"Введите число");
+				return;
+			}
+			VWayCoord wc(currentKm, currentm);
+			double ac = info.GetAbsCoord(wc);
+			for(int i = 0; i < dataSet->GetFrames().size(); i++)
+			{
+				if(dataSet->GetFrames()[i].absCoord > 0.001 && dataSet->GetFrames()[i].absCoord > ac)
+				{
+					slider->SetValue(i);			
+				}
 			}
 			Refresh();
 			break;
@@ -323,7 +355,7 @@ void V4fViewerDialog::OnPaint(wxPaintEvent & event)
 			if(tmpTmplt.find(L"%М")!=std::string::npos)
 			{
 				wchar_t m_str [8] = L"";
-				swprintf(m_str, 7, L"%i", wc.m);
+				swprintf(m_str, 7, L"%.0f", wc.m);
 				tmpTmplt.replace(tmpTmplt.find(L"%М"), 2, m_str);
 			}
 			if(tmpTmplt.find(L"%ПЕРЕГОН")!=std::string::npos)

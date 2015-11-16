@@ -91,7 +91,7 @@ void V4fFrame::LoadV4fImage(FILE * v4f, unsigned char * bufData, int bufDataLen)
 	switch(codeEncoding)
 	{
 		case ENCODE_CV_50:
-		{
+		/*{
 			std::vector<unsigned char> buf;
 			for(int idx = 0; idx < imgLen; idx++)
 			{
@@ -108,7 +108,7 @@ void V4fFrame::LoadV4fImage(FILE * v4f, unsigned char * bufData, int bufDataLen)
 				memcpy(bufData, im.imageData, im.height * im.width * 3);
 			}
 			break;
-		}
+		}*/
 		case ENCODE_RAW:
 		{
 			if(imgLen <= bufDataLen)

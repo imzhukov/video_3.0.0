@@ -55,7 +55,7 @@ void V4fWriter::AddFrame(cv::Mat frame)
 			//{
 				//std::pair<VCoordinatesRecord, V4fFrame> _pair = MAIN_SYNCHRONIZATION().Value().Front(inputId);
 				//V4fFrame cadre = MAIN_SYNCHRONIZATION().Value().Front(inputId);
-				dataSet->WriteFrame(new_frame.dpp, 0.0f, ENCODE_CV_50, new_frame.height, new_frame.width, new_frame.img.data(), new_frame.img.size());
+			dataSet->WriteFrame(new_frame.dpp, new_frame.absCoord, ENCODE_CV_50, new_frame.height, new_frame.width, new_frame.img.data(), new_frame.img.size());
 				//dataSet->WriteFrame(_pair.first.dpp, _pair.first.absolutePosition, ENCODE_CV_50, _pair.second.height, _pair.second.width, _pair.second.img.data(), _pair.second.img.size());
 				//MAIN_SYNCHRONIZATION().Value().Pop(inputId);
 			//}
@@ -95,7 +95,7 @@ void V4fWriter::AddFrame(int width, int height, unsigned char * bufData, int buf
 			//{
 				//std::pair<VCoordinatesRecord, V4fFrame> _pair = MAIN_SYNCHRONIZATION().Value().Front(inputId);
 				//V4fFrame cadre = MAIN_SYNCHRONIZATION().Value().Front(inputId);
-				dataSet->WriteFrame(new_frame.dpp, 0.0f, ENCODE_CV_50, new_frame.height, new_frame.width, new_frame.img.data(), new_frame.img.size());
+			dataSet->WriteFrame(new_frame.dpp, new_frame.absCoord, ENCODE_CV_50, new_frame.height, new_frame.width, new_frame.img.data(), new_frame.img.size());
 				//dataSet->WriteFrame(_pair.first.dpp, _pair.first.absolutePosition, ENCODE_CV_50, _pair.second.height, _pair.second.width, _pair.second.img.data(), _pair.second.img.size());
 				//MAIN_SYNCHRONIZATION().Value().Pop(inputId);
 			//}
