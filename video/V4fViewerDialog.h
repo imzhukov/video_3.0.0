@@ -62,7 +62,7 @@ public:
 	~V4fViewerDialog();
 	//ќбновление интерфейса пользовател€
 	void OnUpdateUI(wxUpdateUIEvent & event);
-	void OnWayCoordUpdate(wxCommandEvent & event);
+	void OnWayCoordUpdate(wxCommandEvent& WXUNUSED(event));
 	void OnLeftButton(wxCommandEvent & event);
 	void OnRightButton(wxCommandEvent & event);
 	//Ёкспорт всех файлов в папку

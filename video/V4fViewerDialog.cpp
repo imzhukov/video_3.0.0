@@ -3,8 +3,10 @@
 //Диалог просмотра кадров из файла v4f
 BEGIN_EVENT_TABLE(V4fViewerDialog, wxDialog)
 	EVT_UPDATE_UI(ID_V4F_VIEWER_SLIDER,V4fViewerDialog::OnUpdateUI)
-	//EVT_TEXT(ID_V4F_VIEWER_KMCTRL, V4fViewerDialog::OnWayCoordUpdate)
-	//EVT_TEXT(ID_V4F_VIEWER_MCTRL, V4fViewerDialog::OnWayCoordUpdate)
+	//EVT_UPDATE_UI(ID_V4F_VIEWER_KMCTRL,V4fViewerDialog::OnUpdateUI)
+	//EVT_UPDATE_UI(ID_V4F_VIEWER_MCTRL,V4fViewerDialog::OnUpdateUI)
+	EVT_TEXT_ENTER(ID_V4F_VIEWER_KMCTRL, V4fViewerDialog::OnWayCoordUpdate)
+	EVT_TEXT_ENTER(ID_V4F_VIEWER_MCTRL, V4fViewerDialog::OnWayCoordUpdate)
 	EVT_BUTTON(ID_V4F_VIEWER_LEFT, V4fViewerDialog::OnLeftButton)
 	EVT_BUTTON(ID_V4F_VIEWER_RIGHT, V4fViewerDialog::OnRightButton)
 	EVT_BUTTON(ID_V4F_VIEWER_EXPCURIMG, V4fViewerDialog::OnExportCurrentImg)
@@ -83,11 +85,13 @@ V4fViewerDialog::V4fViewerDialog(wxWindow * parent, std::string fileName, VRegis
 	wxStaticText * kmText = new wxStaticText(this, wxID_ANY, L"км");
 	kmmSizer->Add(kmText, 0, wxALL, 5);
 
-	kmCtrl = new wxTextCtrl(this, ID_V4F_VIEWER_KMCTRL, L"", wxDefaultPosition, wxSize(30, 20));
+	kmCtrl = new wxTextCtrl(this, ID_V4F_VIEWER_KMCTRL, L"", wxDefaultPosition, wxSize(30, 20), wxTE_PROCESS_ENTER);
+	//kmCtrl->Connect(wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(V4fViewerDialog::OnWayCoordUpdate),NULL, this);
 	kmmSizer->Add(kmCtrl, 0, wxALL, 5);
 	wxStaticText * mText = new wxStaticText(this, wxID_ANY, L"м");
 	kmmSizer->Add(mText, 0, wxALL, 5);
-	mCtrl = new wxTextCtrl(this, ID_V4F_VIEWER_MCTRL, L"", wxDefaultPosition, wxSize(30, 20));
+	mCtrl = new wxTextCtrl(this, ID_V4F_VIEWER_MCTRL, L"", wxDefaultPosition, wxSize(30, 20), wxTE_PROCESS_ENTER);
+	//mCtrl->Connect(wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(V4fViewerDialog::OnWayCoordUpdate),NULL, this);
 	kmmSizer->Add(mCtrl, 0, wxALL, 5);
 	textCtrlSizer->Add(kmmSizer);
 	wxBoxSizer * shiftSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -126,19 +130,20 @@ void V4fViewerDialog::OnUpdateUI(wxUpdateUIEvent & event)
 				wchar_t tmp[10] = L"";
 				_snwprintf_s(tmp, 15, L"%i", wc.km);
 				currentKm = wc.km;
-				this->kmCtrl->SetValue(tmp);
+				this->kmCtrl->ChangeValue(tmp);
 				_snwprintf_s(tmp, 15, L"%.0f", wc.m);
 				currentm = wc.m;
-				this->mCtrl->SetValue(tmp);
+				this->mCtrl->ChangeValue(tmp);
 			}
 			else
 			{
-				this->kmCtrl->SetValue("0");
-				this->mCtrl->SetValue("0");
+				this->kmCtrl->ChangeValue("0");
+				this->mCtrl->ChangeValue("0");
 			}
 			Refresh();
 			break;
 		}
+		/*
 		case ID_V4F_VIEWER_KMCTRL:
 		case ID_V4F_VIEWER_MCTRL:
 		{
@@ -161,21 +166,26 @@ void V4fViewerDialog::OnUpdateUI(wxUpdateUIEvent & event)
 			}
 			VWayCoord wc(currentKm, currentm);
 			double ac = info.GetAbsCoord(wc);
-			for(int i = 0; i < dataSet->GetFrames().size(); i++)
+			struct closer_to
 			{
-				if(dataSet->GetFrames()[i].absCoord > 0.001 && dataSet->GetFrames()[i].absCoord > ac)
+				double abs_coord;
+				closer_to(double in_abs_coord) : abs_coord(in_abs_coord) {};
+				bool operator()(const V4fFrame& l, const V4fFrame& r) const
 				{
-					slider->SetValue(i);			
-				}
-			}
+					return fabs(l.absCoord-abs_coord) < fabs(r.absCoord-abs_coord);
+				};
+			};
+		
+			std::vector<V4fFrame>::iterator nearest=std::min_element(dataSet->GetFrames().begin(), dataSet->GetFrames().end(), closer_to(ac));
+			slider->SetValue(nearest - dataSet->GetFrames().begin());
 			Refresh();
 			break;
-		}
+		}*/
 	}
 	event.Skip();
 }
 
-void V4fViewerDialog::OnWayCoordUpdate(wxCommandEvent & event)
+void V4fViewerDialog::OnWayCoordUpdate(wxCommandEvent& WXUNUSED(event))
 {
 	try
 	{
@@ -183,7 +193,7 @@ void V4fViewerDialog::OnWayCoordUpdate(wxCommandEvent & event)
 		float m = _wtof(mCtrl->GetValue().c_str());
 		if(currentKm == km && currentm == m)
 		{
-			event.Skip();
+			//event.Skip();
 			return;
 		}
 		currentKm = km;
@@ -194,17 +204,23 @@ void V4fViewerDialog::OnWayCoordUpdate(wxCommandEvent & event)
 		LOG_ERROR(L"Введите число");
 		return;
 	}
+	
 	VWayCoord wc(currentKm, currentm);
 	double ac = info.GetAbsCoord(wc);
-	for(int i = 0; i < dataSet->GetFrames().size(); i++)
+	struct closer_to
 	{
-		if(dataSet->GetFrames()[i].absCoord > 0.001 && dataSet->GetFrames()[i].absCoord > ac)
+		double abs_coord;
+		closer_to(double in_abs_coord) : abs_coord(in_abs_coord) {};
+		bool operator()(const V4fFrame& l, const V4fFrame& r) const
 		{
-			slider->SetValue(i);			
-		}
-	}
+			return fabs(l.absCoord-abs_coord) < fabs(r.absCoord-abs_coord);
+		};
+	};
+		
+	std::vector<V4fFrame>::iterator nearest=std::min_element(dataSet->GetFrames().begin(), dataSet->GetFrames().end(), closer_to(ac));
+	slider->SetValue(nearest - dataSet->GetFrames().begin());
 	Refresh();
-	event.Skip();
+	//event.Skip();
 }
 
 void V4fViewerDialog::OnLeftButton(wxCommandEvent & event)
