@@ -86,12 +86,10 @@ V4fViewerDialog::V4fViewerDialog(wxWindow * parent, std::string fileName, VRegis
 	kmmSizer->Add(kmText, 0, wxALL, 5);
 
 	kmCtrl = new wxTextCtrl(this, ID_V4F_VIEWER_KMCTRL, L"", wxDefaultPosition, wxSize(30, 20), wxTE_PROCESS_ENTER);
-	//kmCtrl->Connect(wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(V4fViewerDialog::OnWayCoordUpdate),NULL, this);
 	kmmSizer->Add(kmCtrl, 0, wxALL, 5);
 	wxStaticText * mText = new wxStaticText(this, wxID_ANY, L"м");
 	kmmSizer->Add(mText, 0, wxALL, 5);
 	mCtrl = new wxTextCtrl(this, ID_V4F_VIEWER_MCTRL, L"", wxDefaultPosition, wxSize(30, 20), wxTE_PROCESS_ENTER);
-	//mCtrl->Connect(wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(V4fViewerDialog::OnWayCoordUpdate),NULL, this);
 	kmmSizer->Add(mCtrl, 0, wxALL, 5);
 	textCtrlSizer->Add(kmmSizer);
 	wxBoxSizer * shiftSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -143,44 +141,6 @@ void V4fViewerDialog::OnUpdateUI(wxUpdateUIEvent & event)
 			Refresh();
 			break;
 		}
-		/*
-		case ID_V4F_VIEWER_KMCTRL:
-		case ID_V4F_VIEWER_MCTRL:
-		{
-			try
-			{
-				long km = _wtoi(kmCtrl->GetValue().c_str());
-				float m = _wtof(mCtrl->GetValue().c_str());
-				if(currentKm == km && currentm == m)
-				{
-					event.Skip();
-					return;
-				}
-				currentKm = km;
-				currentm = m;
-			}
-			catch(std::exception e)
-			{
-				LOG_ERROR(L"¬ведите число");
-				return;
-			}
-			VWayCoord wc(currentKm, currentm);
-			double ac = info.GetAbsCoord(wc);
-			struct closer_to
-			{
-				double abs_coord;
-				closer_to(double in_abs_coord) : abs_coord(in_abs_coord) {};
-				bool operator()(const V4fFrame& l, const V4fFrame& r) const
-				{
-					return fabs(l.absCoord-abs_coord) < fabs(r.absCoord-abs_coord);
-				};
-			};
-		
-			std::vector<V4fFrame>::iterator nearest=std::min_element(dataSet->GetFrames().begin(), dataSet->GetFrames().end(), closer_to(ac));
-			slider->SetValue(nearest - dataSet->GetFrames().begin());
-			Refresh();
-			break;
-		}*/
 	}
 	event.Skip();
 }
@@ -193,7 +153,6 @@ void V4fViewerDialog::OnWayCoordUpdate(wxCommandEvent& WXUNUSED(event))
 		float m = _wtof(mCtrl->GetValue().c_str());
 		if(currentKm == km && currentm == m)
 		{
-			//event.Skip();
 			return;
 		}
 		currentKm = km;
@@ -220,7 +179,6 @@ void V4fViewerDialog::OnWayCoordUpdate(wxCommandEvent& WXUNUSED(event))
 	std::vector<V4fFrame>::iterator nearest=std::min_element(dataSet->GetFrames().begin(), dataSet->GetFrames().end(), closer_to(ac));
 	slider->SetValue(nearest - dataSet->GetFrames().begin());
 	Refresh();
-	//event.Skip();
 }
 
 void V4fViewerDialog::OnLeftButton(wxCommandEvent & event)
