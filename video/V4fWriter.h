@@ -28,8 +28,8 @@ class V4fWriter : public VBaseWriter
 	V4fCacheThread * cache;					//Кэш
 	std::wstring cameraName;				//Имя камеры
 	bool Opened;							//Флаг открытия файла
-	long currentDir;						//Текущее направление
-	char currentWay[8];						//Текущий путь
+
+	int64_t current_start_time;				//Текущее время старта (идентификатор поездки)
 	int codeEncoding;						//Код сжатия файла
 	int inputId;
 	int counterFrames;						//Счётчик кадров

@@ -109,6 +109,11 @@ void VCoordinatesClient::handle_read_body(const boost::system::error_code& error
     if (!error && !strcmp(read_msg_.signature, SIG_COORD_ANSWER))
     {
 		CURRENT_POSITION().Lock();
+		if(!CURRENT_POSITION().Value().increaseAbscoord && CURRENT_POSITION().Value().dpp != 0xFFFFFFFF 
+			&& CURRENT_POSITION().Value().absolutePosition != read_msg_.abs_coord)
+		{
+			CURRENT_POSITION().Value().increaseAbscoord = (CURRENT_POSITION().Value().absolutePosition < read_msg_.abs_coord) ? 1 : -1;
+		}
 		CURRENT_POSITION().Value().km = read_msg_.km;
 		CURRENT_POSITION().Value().m = read_msg_.m;
 		CURRENT_POSITION().Value().absolutePosition = read_msg_.abs_coord;
@@ -125,11 +130,6 @@ void VCoordinatesClient::handle_read_body(const boost::system::error_code& error
 		if(*(read_msg_.peregon))
 			strncpy(CURRENT_POSITION().Value().peregon, read_msg_.peregon, 79);
 		CURRENT_POSITION().Unlock();	  
-      
-		/*  boost::asio::async_read(socket_,
-			  boost::asio::buffer(&read_msg_, sizeof(read_msg_)),
-			  boost::bind(&VCoordinatesClient::handle_read_body, this,
-				boost::asio::placeholders::error));*/
 	}
 	else
 	{
@@ -162,11 +162,6 @@ void VCoordinatesClient::handle_write(const boost::system::error_code& error)
 {
 	if (!error && socket_.is_open())
     {
-/*       boost::asio::async_write(socket_,
-		boost::asio::buffer(&write_msg_,
-			sizeof(write_msg_)),
-            boost::bind(&VCoordinatesClient::handle_write, this,
-              boost::asio::placeholders::error));*/
     }
     else
     {

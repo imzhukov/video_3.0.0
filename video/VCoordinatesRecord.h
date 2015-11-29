@@ -9,7 +9,7 @@ public:
 	VCoordinatesRecord();
 	VCoordinatesRecord(const VCoordinatesRecord& record)
 	{
-		stringData = record.stringData;
+		dir = record.dir;
 		dpp = record.dpp;
 		km = record.km;
 		m = record.m;
@@ -17,7 +17,6 @@ public:
 		strcpy(way, record.way);
 		strcpy(peregon, record.peregon);
 	}
-	std::wstring stringData;
 	unsigned long dpp;
 	double absolutePosition;
 	long km;
@@ -30,6 +29,8 @@ public:
 	char peregon [80];
 	///Время старта поездки
 	int64_t start_time;
+	///Показатель убывания или возрастания координаты (-1 - убывание координаты; 1 - возрастание координаты; 0 - непределенное значение)
+	short increaseAbscoord;
 	///Установить поля класса по умолчанию
 	void SetDefaultValues();
 };

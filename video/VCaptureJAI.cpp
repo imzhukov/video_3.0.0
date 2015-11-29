@@ -240,18 +240,18 @@ void VCaptureJAI::ProcessFrame()
 
 void VCaptureJAI::GetRawImage(unsigned char * image, int & imageLen)
 {
-	//!!!Программа падает при попытке заблокировать поток
-	//EnterCriticalSection(&m_CriticalSection);
-	if (m_CnvImageInfo.iImageSize > 0 && m_CnvImageInfo.pImageBuffer != NULL)
+	try
 	{
-		//if(FindZazor(m_CnvImageInfo.pImageBuffer) || countGetImage >= MAX_COUNT_GET_IMAGE)
-		//{
+		if (image != NULL && m_CnvImageInfo.iImageSize > 0 && m_CnvImageInfo.pImageBuffer != NULL)
+		{
 			memcpy((void*) image, (void*) m_CnvImageInfo.pImageBuffer, m_CnvImageInfo.iImageSize);
 			imageLen = m_CnvImageInfo.iImageSize;
-		//}
-		//countGetImage++;
+		}
 	}
-	//LeaveCriticalSection(&m_CriticalSection);
+	catch (std::exception)
+	{
+		LOG_ERROR(L"Ошибка при попытке получить сырое изображение с JAI камеры");
+	}
 }
 
 short VCaptureJAI::GetPixelValue(unsigned char * image, int x, int y)

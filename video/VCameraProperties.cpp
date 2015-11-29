@@ -188,7 +188,7 @@ VJAICameraProperties::VJAICameraProperties(std::wstring conf_str, int version)
 			type = atoi(wstring_to_string(split_vec[0]).c_str());
 			cameraName = split_vec[1];
 			//directory = split_vec[2];
-			numCamera = _wtoi(split_vec[3].c_str());
+			numCamera = _wtoi(split_vec[2].c_str());
 			break;
 		}
 		case 1:

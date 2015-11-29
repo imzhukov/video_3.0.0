@@ -266,6 +266,7 @@ VMainFrame::VMainFrame(wxWindow * parent, wxWindowID id, const wxString & title,
 	}
 	cameraWndCounter = 1600;
 
+	CURRENT_POSITION().Value().SetDefaultValues();
 	Connect(wxID_ANY, wxEVT_COMMAND_COORDTHREAD_COMPLETED, wxThreadEventHandler(VMainFrame::OnCompleteCoordThread), NULL, this);
 	if(VIDEO_OPTIONS().Value().ip_udp != L"" && VIDEO_OPTIONS().Value().port_udp > -1)
 	{
