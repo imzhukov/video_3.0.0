@@ -3,8 +3,6 @@
 //Диалог просмотра кадров из файла v4f
 BEGIN_EVENT_TABLE(V4fViewerDialog, wxDialog)
 	EVT_UPDATE_UI(ID_V4F_VIEWER_SLIDER,V4fViewerDialog::OnUpdateUI)
-	//EVT_UPDATE_UI(ID_V4F_VIEWER_KMCTRL,V4fViewerDialog::OnUpdateUI)
-	//EVT_UPDATE_UI(ID_V4F_VIEWER_MCTRL,V4fViewerDialog::OnUpdateUI)
 	EVT_TEXT_ENTER(ID_V4F_VIEWER_KMCTRL, V4fViewerDialog::OnWayCoordUpdate)
 	EVT_TEXT_ENTER(ID_V4F_VIEWER_MCTRL, V4fViewerDialog::OnWayCoordUpdate)
 	EVT_BUTTON(ID_V4F_VIEWER_LEFT, V4fViewerDialog::OnLeftButton)
@@ -70,7 +68,7 @@ V4fViewerDialog::V4fViewerDialog(wxWindow * parent, std::string fileName, VRegis
 	topSizer->Add(screen, 1, wxALL | wxEXPAND, 10);
 
 	wxBoxSizer * buttonSizer = new wxBoxSizer(wxVERTICAL);
-	exportToAVI = new wxButton(this, ID_V4F_VIEWER_EXPALLIMG, L"Экспорт в .avi", wxDefaultPosition, wxSize(140, 25));
+	exportToAVI = new wxButton(this, ID_V4F_VIEWER_EXPAVI, L"Экспорт в .avi", wxDefaultPosition, wxSize(140, 25));
 	buttonSizer->Add(exportToAVI, 0, wxALL, 10);
 	exportCurrentImg = new wxButton(this, ID_V4F_VIEWER_EXPCURIMG, L"Экспорт текущего кадра", wxDefaultPosition, wxSize(140, 25));
 	buttonSizer->Add(exportCurrentImg, 0, wxALL, 10);
@@ -114,33 +112,33 @@ void V4fViewerDialog::OnUpdateUI(wxUpdateUIEvent & event)
 {
 	switch (event.GetId())
 	{
-		case ID_V4F_VIEWER_SLIDER:
-		{
-			int pos = slider->GetValue();
-			if(currentPosSlider == pos)
-				break;
-			currentPosSlider = pos;
-			//Выставляем координату в textCtrl
-			double abscoord = dataSet->GetFrames()[pos].absCoord;
-			if(abscoord > 1.0f)
-			{
-				VWayCoord wc = info.GetRealCoord(abscoord);
-				wchar_t tmp[10] = L"";
-				_snwprintf_s(tmp, 15, L"%i", wc.km);
-				currentKm = wc.km;
-				this->kmCtrl->ChangeValue(tmp);
-				_snwprintf_s(tmp, 15, L"%.0f", wc.m);
-				currentm = wc.m;
-				this->mCtrl->ChangeValue(tmp);
-			}
-			else
-			{
-				this->kmCtrl->ChangeValue("0");
-				this->mCtrl->ChangeValue("0");
-			}
-			Refresh();
+	case ID_V4F_VIEWER_SLIDER:
+	{
+		int pos = slider->GetValue();
+		if (currentPosSlider == pos)
 			break;
+		currentPosSlider = pos;
+		//Выставляем координату в textCtrl
+		double abscoord = dataSet->GetFrames()[pos].absCoord + VIDEO_OPTIONS().Value().shiftCoordinate;
+		if (abscoord > 1.0f)
+		{
+			VWayCoord wc = info.GetRealCoord(abscoord);
+			wchar_t tmp[10] = L"";
+			_snwprintf_s(tmp, 15, L"%i", wc.km);
+			currentKm = wc.km;
+			this->kmCtrl->ChangeValue(tmp);
+			_snwprintf_s(tmp, 15, L"%.0f", wc.m);
+			currentm = wc.m;
+			this->mCtrl->ChangeValue(tmp);
 		}
+		else
+		{
+			this->kmCtrl->ChangeValue("0");
+			this->mCtrl->ChangeValue("0");
+		}
+		Refresh();
+		break;
+	}
 	}
 	event.Skip();
 }
@@ -151,19 +149,19 @@ void V4fViewerDialog::OnWayCoordUpdate(wxCommandEvent& WXUNUSED(event))
 	{
 		long km = _wtoi(kmCtrl->GetValue().c_str());
 		float m = _wtof(mCtrl->GetValue().c_str());
-		if(currentKm == km && currentm == m)
+		if (currentKm == km && currentm == m)
 		{
 			return;
 		}
 		currentKm = km;
 		currentm = m;
 	}
-	catch(std::exception e)
+	catch (std::exception e)
 	{
 		LOG_ERROR(L"Введите число");
 		return;
 	}
-	
+
 	VWayCoord wc(currentKm, currentm);
 	double ac = info.GetAbsCoord(wc);
 	struct closer_to
@@ -172,11 +170,11 @@ void V4fViewerDialog::OnWayCoordUpdate(wxCommandEvent& WXUNUSED(event))
 		closer_to(double in_abs_coord) : abs_coord(in_abs_coord) {};
 		bool operator()(const V4fFrame& l, const V4fFrame& r) const
 		{
-			return fabs(l.absCoord-abs_coord) < fabs(r.absCoord-abs_coord);
+			return fabs(l.absCoord - abs_coord) < fabs(r.absCoord - abs_coord);
 		};
 	};
-		
-	std::vector<V4fFrame>::iterator nearest=std::min_element(dataSet->GetFrames().begin(), dataSet->GetFrames().end(), closer_to(ac));
+
+	std::vector<V4fFrame>::iterator nearest = std::min_element(dataSet->GetFrames().begin(), dataSet->GetFrames().end(), closer_to(ac + VIDEO_OPTIONS().Value().shiftCoordinate));
 	slider->SetValue(nearest - dataSet->GetFrames().begin());
 	Refresh();
 }
@@ -186,19 +184,7 @@ void V4fViewerDialog::OnLeftButton(wxCommandEvent & event)
 	int pos = slider->GetValue();
 	if(pos - 1 > -1)
 	{
-		currentPosSlider = pos - 1;
 		slider->SetValue(pos - 1);
-		//Выставляем координату в textCtrl
-		double abscoord = dataSet->GetFrames()[pos-1].absCoord;
-		if(abscoord > 1.0f)
-		{
-			VWayCoord wc = info.GetRealCoord(abscoord);
-			wchar_t tmp[10] = L"";
-			_snwprintf_s(tmp, 15, L"%i", wc.km);
-			this->kmCtrl->SetValue(tmp);
-			_snwprintf_s(tmp, 15, L"%.0f", wc.m);
-			this->mCtrl->SetValue(tmp);
-		}
 		Refresh();
 	}
 	event.Skip();
@@ -209,21 +195,7 @@ void V4fViewerDialog::OnRightButton(wxCommandEvent & event)
 	int pos = slider->GetValue();
 	if(pos + 1 < dataSet->GetFrames().size())
 	{
-		currentPosSlider = pos + 1;
 		slider->SetValue(pos + 1);
-		//Выставляем координату в textCtrl
-		double abscoord = dataSet->GetFrames()[pos + 1].absCoord;
-		if(abscoord > 1.0f)
-		{
-			VWayCoord wc = info.GetRealCoord(abscoord);
-			wchar_t tmp[10] = L"";
-			_snwprintf_s(tmp, 15, L"%i", wc.km);
-			currentKm = wc.km;
-			this->kmCtrl->SetValue(tmp);
-			_snwprintf_s(tmp, 15, L"%.0f", wc.m);
-			currentm = wc.m;
-			this->mCtrl->SetValue(tmp);
-		}
 		Refresh();
 	}
 	event.Skip();
@@ -231,17 +203,17 @@ void V4fViewerDialog::OnRightButton(wxCommandEvent & event)
 
 void V4fViewerDialog::OnExportCurrentImg(wxCommandEvent & event)
 {
-	if(!mainBitmap.GetWidth())
+	if (!mainBitmap.GetWidth())
 		return;
 	int pos = slider->GetValue();
-	if(dataSet->GetFrames()[pos].absCoord > 1.0f)
+	if (dataSet->GetFrames()[pos].absCoord > 1.0f)
 	{
-		VWayCoord wc = info.GetRealCoord(dataSet->GetFrames()[pos].absCoord);
-		wchar_t nameFile [256];
-		_snwprintf_s(nameFile, 255, L"%i_%s(%i km %.0f m).jpg", info.GetDirCode(), info.GetWayCode().c_str(), wc.km, wc.m);
+		VWayCoord current_wc = info.GetRealCoord(dataSet->GetFrames()[pos].absCoord + VIDEO_OPTIONS().Value().shiftCoordinate);
+		char nameFile[256];
+		_snprintf(nameFile, 255, "%i_%s(%i km %.0f m).jpg", info.GetDirCode(), info.GetWayCode().c_str(), current_wc.km, current_wc.m);
 
-		wxFileDialog dlg(this, L"Выберите файл", L"", nameFile
-			, L"Файлы jpg|*.jpg",wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
+		wxFileDialog dlg(this, "Выберите файл", "", nameFile
+			, "Файлы jpg|*.jpg", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 		if (dlg.ShowModal() == wxID_OK)
 		{
 			wxImage image = mainBitmap.ConvertToImage();
@@ -253,6 +225,34 @@ void V4fViewerDialog::OnExportCurrentImg(wxCommandEvent & event)
 
 void V4fViewerDialog::OnExportToAvi(wxCommandEvent & event)
 {
+	char nameFile[256];
+	VWayCoord first_wc = info.GetRealCoord(dataSet->GetFrames()[0].absCoord + VIDEO_OPTIONS().Value().shiftCoordinate);
+	VWayCoord last_wc = info.GetRealCoord(dataSet->GetFrames()[dataSet->GetFrames().size() - 1].absCoord + VIDEO_OPTIONS().Value().shiftCoordinate);
+	if(first_wc.km < last_wc.km || first_wc.m < last_wc.m)
+		_snprintf (nameFile, 255, "%i_%s(%i km %.0f m - %i km %.0f m).avi", info.GetDirCode(), info.GetWayCode().c_str(), first_wc.km, first_wc.m, last_wc.km, last_wc.m);
+	else
+		_snprintf(nameFile, 255, "%i_%s(%i km %.0f m - %i km %.0f m).avi", info.GetDirCode(), info.GetWayCode().c_str(), last_wc.km, last_wc.m, first_wc.km, first_wc.m);
+
+	wxFileDialog dlg(this, "Выберите файл для записи", L"", nameFile
+		, "Файлы avi|*.avi", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+	if (dlg.ShowModal() == wxID_OK)
+	{
+		int width = dataSet->GetFrames()[0].width;
+		int height = dataSet->GetFrames()[0].height;
+		VideoWriter writer(dlg.GetPath().ToStdString(), CV_FOURCC('M', 'J', 'P', 'G'), 40, Size(width, height), true);
+		for (int idxCadre = 0; idxCadre < dataSet->GetFrames().size(); idxCadre++)
+		{
+			wxMemoryDC finallyMemoryDC;
+			wxMemoryDC bmpDC;
+			wxBitmap bmp;
+			paintCadreByIndex(bmp, bmpDC, idxCadre);
+			finallyMemoryDC.StretchBlit(0, 0, bmp.GetWidth(), bmp.GetHeight(), &bmpDC, 0, 0, bmp.GetWidth(), bmp.GetHeight());
+			wxImage image = bmp.ConvertToImage();
+			Mat mImage(height, width, CV_8UC3, image.GetData());
+			writer.write(mImage);
+		}
+		writer.release();
+	}
 	event.Skip();
 }
 
@@ -263,41 +263,51 @@ void V4fViewerDialog::OnPaint(wxPaintEvent & event)
 		wxPaintDC finallyMemoryDC(screen);
 		this->PrepareDC(finallyMemoryDC);
 		wxMemoryDC bmpDC;
-		int __width = dataSet->GetFrames()[currentPosSlider].width;
-		int __height = dataSet->GetFrames()[currentPosSlider].height;
-		if(subtitleBitmap)
-			delete subtitleBitmap;
-		subtitleBitmap = new wxBitmap(__width, __height);
-		VWayCoord wc;
-		if(dataSet->GetFrames()[currentPosSlider].absCoord > 1.0f)
-			wc = info.GetRealCoord(dataSet->GetFrames()[currentPosSlider].absCoord);
-		if(bufDataLen < (__width * __height * 3))
-		{
-			if(bufDataLen)
-				delete [] bufData;
-			bufData = new unsigned char [__width * __height * 3];
-		}
-		dataSet->LoadImage(currentPosSlider, bufData, bufDataLen);
-		///Отрисовка кадра в wxMemoryDC
-		//высота субтитров
-		int heightSubtitle = VIDEO_OPTIONS().Value().heightSubtitle;
-		wxImage image(__width, __height, (unsigned char*) bufData, true);
-		wxBitmap bitmap(image);
-		///Загружаем кадр в MemoryDC 
-		bmpDC.SelectObjectAsSource(bitmap);
-		///Добавляем в finallyMemoryDC subtitleBitmap для отрисовки субтитров
-		subtitleMemoryDC->SelectObjectAsSource(*subtitleBitmap);
+		this->paintCadreByIndex(mainBitmap, bmpDC, currentPosSlider);
+		finallyMemoryDC.StretchBlit(0, 0, mainBitmap.GetWidth(), mainBitmap.GetHeight(), &bmpDC, 0, 0, mainBitmap.GetWidth(), mainBitmap.GetHeight());
+		Update();
+	}
+	event.Skip();
+}
 
-		///Рисуем субтитры
-		int width = subtitleBitmap->GetWidth(), height = subtitleBitmap->GetHeight();
-			
-		//узнаём куда рисовать субтитры
-		int yPos = __height - 40;
-
-		//сдвиг субтитров
-		int shiftSubtitle = VIDEO_OPTIONS().Value().shiftSubtitle;
-		switch(VIDEO_OPTIONS().Value().locationSubtitle)
+void V4fViewerDialog::paintCadreByIndex(wxBitmap & bmp, wxMemoryDC & bmpDC, int idxCadre)
+{
+	try
+	{
+		if (dataSet)
 		{
+			int __width = dataSet->GetFrames()[idxCadre].width;
+			int __height = dataSet->GetFrames()[idxCadre].height;
+			if (subtitleBitmap)
+				delete subtitleBitmap;
+			subtitleBitmap = new wxBitmap(__width, __height);
+			if (bufDataLen < (__width * __height * 3))
+			{
+				if (bufDataLen)
+					delete[] bufData;
+				bufData = new unsigned char[__width * __height * 3];
+			}
+			dataSet->LoadImage(idxCadre, bufData, bufDataLen);
+			///Отрисовка кадра в wxMemoryDC
+			//высота субтитров
+			int heightSubtitle = VIDEO_OPTIONS().Value().heightSubtitle;
+			wxImage image(__width, __height, (unsigned char*)bufData, true);
+			wxBitmap bitmap(image);
+			///Загружаем кадр в MemoryDC 
+			bmpDC.SelectObjectAsSource(bitmap);
+			///Добавляем в finallyMemoryDC subtitleBitmap для отрисовки субтитров
+			subtitleMemoryDC->SelectObjectAsSource(*subtitleBitmap);
+
+			///Рисуем субтитры
+			int width = subtitleBitmap->GetWidth(), height = subtitleBitmap->GetHeight();
+
+			//узнаём куда рисовать субтитры
+			int yPos = __height - 40;
+
+			//сдвиг субтитров
+			int shiftSubtitle = VIDEO_OPTIONS().Value().shiftSubtitle;
+			switch (VIDEO_OPTIONS().Value().locationSubtitle)
+			{
 			case wxTOP:
 				yPos = shiftSubtitle;
 				break;
@@ -307,43 +317,46 @@ void V4fViewerDialog::OnPaint(wxPaintEvent & event)
 			default:
 				LOG_ERROR(L"Неправильное задание расположения субтитров");
 				break;
-		}
-		
-		subtitleMemoryDC->DrawRectangle(0, 0, __width, heightSubtitle);
-		//Формируем строку субтитров
-		std::wstring tmpTmplt = VIDEO_OPTIONS().Value().tmpltSubtitle;
-		if(tmpTmplt.find(L"%НАПР")!=std::string::npos)
+			}
+
+			subtitleMemoryDC->DrawRectangle(0, 0, __width, heightSubtitle);
+			//Формируем строку субтитров
+			std::wstring tmpTmplt = VIDEO_OPTIONS().Value().tmpltSubtitle;
+			if (tmpTmplt.find(L"%НАПР") != std::string::npos)
 			{
-				wchar_t dir_str [32] = L"";
+				wchar_t dir_str[32] = L"";
 				swprintf(dir_str, 31, L"%i", info.GetDirCode());
 				tmpTmplt.replace(tmpTmplt.find(L"%НАПР"), 5, dir_str);
 			}
-			if(tmpTmplt.find(L"%ПУТЬ")!=std::string::npos)
+			if (tmpTmplt.find(L"%ПУТЬ") != std::string::npos)
 				tmpTmplt.replace(tmpTmplt.find(L"%ПУТЬ"), 5, string_to_wstring(info.GetWayCode()).c_str());
-			if(tmpTmplt.find(L"%КМ")!=std::string::npos)
+			VWayCoord current_wc = info.GetRealCoord(dataSet->GetFrames()[idxCadre].absCoord + VIDEO_OPTIONS().Value().shiftCoordinate);
+			if (tmpTmplt.find(L"%КМ") != std::string::npos)
 			{
-				wchar_t km_str [15] = L"";
-				swprintf(km_str, 14, L"%i", wc.km);
+				wchar_t km_str[16];
+				_snwprintf(km_str, 15, L"%i", current_wc.km);
 				tmpTmplt.replace(tmpTmplt.find(L"%КМ"), 3, km_str);
 			}
-			if(tmpTmplt.find(L"%М")!=std::string::npos)
+			if (tmpTmplt.find(L"%М") != std::string::npos)
 			{
-				wchar_t m_str [8] = L"";
-				swprintf(m_str, 7, L"%.0f", wc.m);
+				wchar_t m_str[16];
+				_snwprintf(m_str, 15, L"%.0f", current_wc.m);
 				tmpTmplt.replace(tmpTmplt.find(L"%М"), 2, m_str);
 			}
-			if(tmpTmplt.find(L"%ПЕРЕГОН")!=std::string::npos)
-				tmpTmplt.replace(tmpTmplt.find(L"%ПЕРЕГОН"), 8, string_to_wstring(info.GetAreaPeregon(dataSet->GetFrames()[currentPosSlider].absCoord-1.0, dataSet->GetFrames()[currentPosSlider].absCoord+1.0)).c_str());
+			if (tmpTmplt.find(L"%ПЕРЕГОН") != std::string::npos)
+				tmpTmplt.replace(tmpTmplt.find(L"%ПЕРЕГОН"), 8, string_to_wstring(info.GetAreaPeregon(dataSet->GetFrames()[idxCadre].absCoord + VIDEO_OPTIONS().Value().shiftCoordinate - 1.0, dataSet->GetFrames()[idxCadre].absCoord + VIDEO_OPTIONS().Value().shiftCoordinate + 1.0)).c_str());
 
 			subtitleMemoryDC->SetFont(wxFont((int)(heightSubtitle * 0.6), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
 			subtitleMemoryDC->DrawLabel(tmpTmplt.c_str(), wxRect(0, (int)(-heightSubtitle * 0.1), width, heightSubtitle), wxALIGN_CENTER);
 
-		bmpDC.Blit(0, 0, __width, heightSubtitle, subtitleMemoryDC, 0, 0);
-		mainBitmap = bmpDC.GetAsBitmap();
-		finallyMemoryDC.StretchBlit(0, 0, mainBitmap.GetWidth(), mainBitmap.GetHeight(), &bmpDC, 0, 0, mainBitmap.GetWidth(), mainBitmap.GetHeight());
-		Update();
+			bmpDC.Blit(0, 0, __width, heightSubtitle, subtitleMemoryDC, 0, 0);
+			bmp = bmpDC.GetAsBitmap();
+		}
 	}
-	event.Skip();
+	catch (std::exception e)
+	{
+		LOG_ERROR(L"Ошибка при отрисовке кадра");
+	}
 }
 
 V4fViewerDialog::~V4fViewerDialog()

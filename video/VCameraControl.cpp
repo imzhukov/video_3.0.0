@@ -1,8 +1,6 @@
 #include "VCameraControl.h"
 
-///Обработка перерисовки окна
-
-int NotConnectedWidth = 400, NotConnectedHeight = 200;
+//int NotConnectedWidth = 400, NotConnectedHeight = 200;
 ///Состояние выбранной камеры
 bool isConnected = false;
 
@@ -22,8 +20,8 @@ void VCameraControl::OnPaint(wxPaintEvent &ev)
 	if (!isConnected)
 	{
 		///Задаем размер окна по умолчанию
-		size.SetWidth(NotConnectedWidth);
-		size.SetHeight(NotConnectedHeight);
+		size.SetWidth(400);
+		size.SetHeight(200);
 		this->SetMinSize(size);
 		screen->SetMinSize(size);
 		wxPaintDC dc(screen);
@@ -191,8 +189,8 @@ VCameraControl::VCameraControl(VCameraBase * camera_props, wxWindow* parent, int
 	else
 	{
 		///Задаем размер окна по умолчанию
-		size.SetWidth(NotConnectedWidth);
-		size.SetHeight(NotConnectedHeight);
+		size.SetWidth(400);
+		size.SetHeight(200);
 		screen->SetMinSize(size);		
 	}
 	sizer->Add(screen,1,wxALL|wxEXPAND,0);
@@ -206,14 +204,13 @@ VCameraControl::VCameraControl(VCameraBase * camera_props, wxWindow* parent, int
 	}
 	else
 	{
-		size.SetWidth(NotConnectedWidth);
-		size.SetHeight(NotConnectedHeight);
+		size.SetWidth(400);
+		size.SetHeight(200);
 	}
 	screen->SetMinSize(size);
 	this->SetMinSize(size);
 	this->Centre();
 	this->Center();
-	//this->Update();
 	this->Fit();
 	*existing = true;
 }

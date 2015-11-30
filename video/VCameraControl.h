@@ -14,8 +14,8 @@
 #define ID_STOP_RECORDING 10202
 #define ID_TOOLBAR_CAMERACONTROL 10203
 
-extern int NotConnectedWidth;
-extern int NotConnectedHeight;
+//extern int NotConnectedWidth;
+//extern int NotConnectedHeight;
 ///Состояние выбранной камеры
 extern bool isConnected;
 

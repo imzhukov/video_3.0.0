@@ -41,7 +41,6 @@ class V4fViewerDialog : public wxDialog
 
 	wxSlider * slider;
 	wxPanel * screen;
-	//wxButton * exportAllImg;
 	wxButton * exportCurrentImg;
 	wxButton * exportToAVI;
 	wxTextCtrl * kmCtrl, * mCtrl;		// Выставление кадра по км, м
@@ -54,6 +53,8 @@ class V4fViewerDialog : public wxDialog
 	int currentPosSlider;
 	long currentKm;
 	float currentm;
+
+	void paintCadreByIndex(wxBitmap & bmp, wxMemoryDC & bmpDC, int idxCadre);
 
 public:
 	//Конструктор

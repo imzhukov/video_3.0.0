@@ -380,7 +380,7 @@ void VMainFrame::AddCamera(VCameraBase * in_camera_props, int cameraId)
 			Camera->SetMinSize(Camera->GetBestSize());
 		else
 		{
-			wxSize size(NotConnectedWidth,NotConnectedHeight);
+			wxSize size(400,200);
 			Camera->SetMinSize(size);
 		}
 		Camera->Show();
