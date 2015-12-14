@@ -5,7 +5,7 @@
 
 #include "VCoordinatesRecord.h"
 #include "VCodeDPPThread.h"
-#include "V4fSynchronization.h"
+//#include "V4fSynchronization.h"
 #include "VVideoOptions.h"
 #include "V4fDataSet.h"
 #include "VLog.h"

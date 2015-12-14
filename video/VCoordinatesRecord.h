@@ -3,7 +3,7 @@
 #include "options.h"
 #include "ExchangeCadre.h"
 
-class VCoordinatesRecord
+/*class VCoordinatesRecord
 {
 public:
 	VCoordinatesRecord();
@@ -33,6 +33,6 @@ public:
 	short increaseAbscoord;
 	///Установить поля класса по умолчанию
 	void SetDefaultValues();
-};
+};*/
 
-DECLARE_VARIABLE_MT(VCoordinatesRecord, CURRENT_POSITION, VCoordinatesRecord())
+DECLARE_VARIABLE_MT(CoordAnswer, CURRENT_POSITION, CoordAnswer())

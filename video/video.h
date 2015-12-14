@@ -14,7 +14,7 @@
 //#include "options.h"
 
 #include "dbmodule.h"
-#include "V4fSynchronization.h"
+//#include "V4fSynchronization.h"
 #include "VCoordinatesThread.h"
 #include "VCodeDPPThread.h"
 #include "VCameraProperties.h"

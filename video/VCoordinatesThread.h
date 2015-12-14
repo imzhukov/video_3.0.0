@@ -8,7 +8,8 @@
 
 #include "VCoordinatesClient.h"
 #include "VCodeDPPThread.h"
-#include "V4fSynchronization.h"	
+#include "VVideoOptions.h"
+//#include "V4fSynchronization.h"	
 
 using boost::asio::ip::tcp;
 

@@ -51,9 +51,6 @@
     <ClCompile Include="..\..\video\VCameraProperties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\video\VCoordinatesRecord.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\video\VCapture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -140,9 +137,6 @@
     <ClInclude Include="..\..\video\VDppSynchronization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\video\V4fSynchronization.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\video\V4fFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -156,6 +150,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\video\V4fDataSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\video\VCoordinatesThread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -52,7 +52,7 @@ bool VAviWriter::Open()
 	char ymd[22]="", hms[32]="", dir_way[64]="";
 	strftime(ymd, 21, "%Y%m%d", localtime(&now));
 	strftime(hms, 31, "%Hh%Mm%Ss", localtime(&now));
-	_snprintf(dir_way,63,"%i_%s",CURRENT_POSITION().Value().dir, CURRENT_POSITION().Value().way);
+	_snprintf(dir_way,63,"%i_%s",CURRENT_POSITION().Value().direction, CURRENT_POSITION().Value().way);
 	std::wstring finalPath = string_to_wstring((const char *) ymd) + L"_" + string_to_wstring((const char *) dir_way);
 	
 	const wchar_t * ch = VIDEO_OPTIONS().Value().video_server.c_str();

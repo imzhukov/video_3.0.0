@@ -79,8 +79,8 @@ void VCoordinatesClient::handle_read_header(const boost::system::error_code& err
 		CURRENT_POSITION().Lock();
 		CURRENT_POSITION().Value().km = read_msg_.km;
 		CURRENT_POSITION().Value().m = read_msg_.m;
-		CURRENT_POSITION().Value().absolutePosition = read_msg_.abs_coord;
-		CURRENT_POSITION().Value().dir = read_msg_.direction;
+		CURRENT_POSITION().Value().abs_coord = read_msg_.abs_coord;
+		CURRENT_POSITION().Value().direction = read_msg_.direction;
 		CURRENT_POSITION().Value().dpp = read_msg_.dpp;
 		CURRENT_POSITION().Value().start_time = read_msg_.start_time;
 		int check = read_msg_.way[0];
@@ -109,7 +109,8 @@ void VCoordinatesClient::handle_read_body(const boost::system::error_code& error
     if (!error && !strcmp(read_msg_.signature, SIG_COORD_ANSWER))
     {
 		CURRENT_POSITION().Lock();
-		if(!CURRENT_POSITION().Value().increaseAbscoord && CURRENT_POSITION().Value().dpp != 0xFFFFFFFF 
+		CURRENT_POSITION().Value().SetCoordAnswer(read_msg_);
+		/*if(!CURRENT_POSITION().Value().increaseAbscoord && CURRENT_POSITION().Value().dpp != 0xFFFFFFFF 
 			&& CURRENT_POSITION().Value().absolutePosition != read_msg_.abs_coord)
 		{
 			CURRENT_POSITION().Value().increaseAbscoord = (CURRENT_POSITION().Value().absolutePosition < read_msg_.abs_coord) ? 1 : -1;
@@ -128,7 +129,7 @@ void VCoordinatesClient::handle_read_body(const boost::system::error_code& error
 		else
 			strcpy(CURRENT_POSITION().Value().way," NO WAY");
 		if(*(read_msg_.peregon))
-			strncpy(CURRENT_POSITION().Value().peregon, read_msg_.peregon, 79);
+			strncpy(CURRENT_POSITION().Value().peregon, read_msg_.peregon, 79);*/
 		CURRENT_POSITION().Unlock();	  
 	}
 	else

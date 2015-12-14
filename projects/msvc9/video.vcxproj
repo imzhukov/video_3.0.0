@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug MB|Win32">
       <Configuration>Debug MB</Configuration>
@@ -21,25 +21,30 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E483A376-9AE2-40D5-B78D-4C95A93C7450}</ProjectGuid>
     <RootNamespace>video</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release MB|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug MB|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -172,7 +177,6 @@
     <ClCompile Include="..\..\video\VCaptureThread.cpp" />
     <ClCompile Include="..\..\video\VCodeDPPThread.cpp" />
     <ClCompile Include="..\..\video\VCoordinatesClient.cpp" />
-    <ClCompile Include="..\..\video\VCoordinatesRecord.cpp" />
     <ClCompile Include="..\..\video\VCoordinatesThread.cpp" />
     <ClCompile Include="..\..\video\video.cpp" />
     <ClCompile Include="..\..\video\VCameraPropDialog.cpp" />
@@ -185,7 +189,6 @@
     <ClInclude Include="..\..\video\V4fCacheThread.h" />
     <ClInclude Include="..\..\video\V4fDataSet.h" />
     <ClInclude Include="..\..\video\V4fFrame.h" />
-    <ClInclude Include="..\..\video\V4fSynchronization.h" />
     <ClInclude Include="..\..\video\V4fViewerDialog.h" />
     <ClInclude Include="..\..\video\V4fWriter.h" />
     <ClInclude Include="..\..\video\VAviWriter.h" />
@@ -199,6 +202,7 @@
     <ClInclude Include="..\..\video\VCodeDPPThread.h" />
     <ClInclude Include="..\..\video\VCoordinatesClient.h" />
     <ClInclude Include="..\..\video\VCoordinatesRecord.h" />
+    <ClInclude Include="..\..\video\VCoordinatesThread.h" />
     <ClInclude Include="..\..\video\VDppSynchronization.h" />
     <ClInclude Include="..\..\video\video.h" />
     <ClInclude Include="..\..\video\VCameraPropDialog.h" />

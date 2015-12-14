@@ -215,9 +215,15 @@ VMainFrame::VMainFrame(wxWindow * parent, wxWindowID id, const wxString & title,
 	paramName = L"port_udp";
 	if(VideoConfig.Read(paramName, &result))
 		VIDEO_OPTIONS().Value().port_udp = _wtoi(result.c_str());
-	paramName = L"shiftCoordinate";
+	paramName = L"shiftCoordinateViewer";
 	if(VideoConfig.Read(paramName, &result))
-		VIDEO_OPTIONS().Value().shiftCoordinate = atoi(result.c_str());
+		VIDEO_OPTIONS().Value().shiftCoordinateViewer = atoi(result.c_str());
+	paramName = L"shiftCoordinateSpeedPositive";
+	if (VideoConfig.Read(paramName, &result))
+		VIDEO_OPTIONS().Value().shiftCoordinateSpeedPositive = atoi(result.c_str());
+	paramName = L"shiftCoordinateSpeedNegative";
+	if (VideoConfig.Read(paramName, &result))
+		VIDEO_OPTIONS().Value().shiftCoordinateSpeedNegative = atoi(result.c_str());
 			
 	if(VIDEO_OPTIONS().Value().in_server_db != L"" && VIDEO_OPTIONS().Value().in_database != L"")
 		this->RegisteredDatabase = new VRegisteredDatabase(L"video_db", VIDEO_OPTIONS().Value().in_server_db, VIDEO_OPTIONS().Value().in_database, L"");
@@ -266,7 +272,7 @@ VMainFrame::VMainFrame(wxWindow * parent, wxWindowID id, const wxString & title,
 	}
 	cameraWndCounter = 1600;
 
-	CURRENT_POSITION().Value().SetDefaultValues();
+	//CURRENT_POSITION().Value().SetDefaultValues();
 	Connect(wxID_ANY, wxEVT_COMMAND_COORDTHREAD_COMPLETED, wxThreadEventHandler(VMainFrame::OnCompleteCoordThread), NULL, this);
 	if(VIDEO_OPTIONS().Value().ip_udp != L"" && VIDEO_OPTIONS().Value().port_udp > -1)
 	{
@@ -432,7 +438,9 @@ void VMainFrame::OnProperties(wxCommandEvent& event)
 		wxString ip_udp_str(wstring_to_string(VIDEO_OPTIONS().Value().ip_udp).c_str());
 		VideoConfig.Write("ip_udp", ip_udp_str);
 		VideoConfig.Write("port_udp", VIDEO_OPTIONS().Value().port_udp);
-		VideoConfig.Write("shiftCoordinate", VIDEO_OPTIONS().Value().shiftCoordinate);
+		VideoConfig.Write("shiftCoordinateViewer", VIDEO_OPTIONS().Value().shiftCoordinateViewer);
+		VideoConfig.Write("shiftCoordinateSpeedPositive", VIDEO_OPTIONS().Value().shiftCoordinateSpeedPositive);
+		VideoConfig.Write("shiftCoordinateSpeedNegative", VIDEO_OPTIONS().Value().shiftCoordinateSpeedNegative);
 		//Проверка подключения к БД
 		if(this->RegisteredDatabase)
 			delete RegisteredDatabase;

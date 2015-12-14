@@ -39,6 +39,11 @@ wxThread::ExitCode VCoordinatesThread::Entry()
 				VCoordinatesClient client(io_service, iterator, boost::posix_time::millisec(200));
 				boost::thread t(boost::bind(&boost::asio::io_service::run, &io_service));
 				Sleep(50);
+				int shift_dpp = 0;
+				//if(CURRENT_POSITION().Value().speed > 0)
+					//shift_dpp = VIDEO_OPTIONS().Value().shiftCoordinateSpeedPositive / 0.24;
+				//else
+					//shift_dpp =  - VIDEO_OPTIONS().Value().shiftCoordinateSpeedNegative / 0.24;
 				client.write(CURRENT_DPP().Value(), boost::posix_time::millisec(200));
 				//client.write(tdpp, boost::posix_time::millisec(200));
 				Sleep(200);

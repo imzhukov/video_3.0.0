@@ -6,7 +6,7 @@
 
 #include "V4fWriter.h"
 #include "VAviWriter.h"
-#include "V4fSynchronization.h"
+//#include "V4fSynchronization.h"
 
 wxDECLARE_EVENT(wxEVT_COMMAND_CAPTURETHREAD_COMPLETED, wxThreadEvent);
 /// Поток захвата

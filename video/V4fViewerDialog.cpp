@@ -119,7 +119,7 @@ void V4fViewerDialog::OnUpdateUI(wxUpdateUIEvent & event)
 			break;
 		currentPosSlider = pos;
 		//Âûñòàâëÿåì êîîðäèíàòó â textCtrl
-		double abscoord = dataSet->GetFrames()[pos].absCoord + VIDEO_OPTIONS().Value().shiftCoordinate;
+		double abscoord = dataSet->GetFrames()[pos].absCoord + VIDEO_OPTIONS().Value().shiftCoordinateViewer;
 		if (abscoord > 1.0f)
 		{
 			VWayCoord wc = info.GetRealCoord(abscoord);
@@ -174,7 +174,7 @@ void V4fViewerDialog::OnWayCoordUpdate(wxCommandEvent& WXUNUSED(event))
 		};
 	};
 
-	std::vector<V4fFrame>::iterator nearest = std::min_element(dataSet->GetFrames().begin(), dataSet->GetFrames().end(), closer_to(ac + VIDEO_OPTIONS().Value().shiftCoordinate));
+	std::vector<V4fFrame>::iterator nearest = std::min_element(dataSet->GetFrames().begin(), dataSet->GetFrames().end(), closer_to(ac + VIDEO_OPTIONS().Value().shiftCoordinateViewer));
 	slider->SetValue(nearest - dataSet->GetFrames().begin());
 	Refresh();
 }
@@ -208,7 +208,7 @@ void V4fViewerDialog::OnExportCurrentImg(wxCommandEvent & event)
 	int pos = slider->GetValue();
 	if (dataSet->GetFrames()[pos].absCoord > 1.0f)
 	{
-		VWayCoord current_wc = info.GetRealCoord(dataSet->GetFrames()[pos].absCoord + VIDEO_OPTIONS().Value().shiftCoordinate);
+		VWayCoord current_wc = info.GetRealCoord(dataSet->GetFrames()[pos].absCoord + VIDEO_OPTIONS().Value().shiftCoordinateViewer);
 		char nameFile[256];
 		_snprintf(nameFile, 255, "%i_%s(%i km %.0f m).jpg", info.GetDirCode(), info.GetWayCode().c_str(), current_wc.km, current_wc.m);
 
@@ -226,8 +226,8 @@ void V4fViewerDialog::OnExportCurrentImg(wxCommandEvent & event)
 void V4fViewerDialog::OnExportToAvi(wxCommandEvent & event)
 {
 	char nameFile[256];
-	VWayCoord first_wc = info.GetRealCoord(dataSet->GetFrames()[0].absCoord + VIDEO_OPTIONS().Value().shiftCoordinate);
-	VWayCoord last_wc = info.GetRealCoord(dataSet->GetFrames()[dataSet->GetFrames().size() - 1].absCoord + VIDEO_OPTIONS().Value().shiftCoordinate);
+	VWayCoord first_wc = info.GetRealCoord(dataSet->GetFrames()[0].absCoord + VIDEO_OPTIONS().Value().shiftCoordinateViewer);
+	VWayCoord last_wc = info.GetRealCoord(dataSet->GetFrames()[dataSet->GetFrames().size() - 1].absCoord + VIDEO_OPTIONS().Value().shiftCoordinateViewer);
 	if(first_wc.km < last_wc.km || first_wc.m < last_wc.m)
 		_snprintf (nameFile, 255, "%i_%s(%i km %.0f m - %i km %.0f m).avi", info.GetDirCode(), info.GetWayCode().c_str(), first_wc.km, first_wc.m, last_wc.km, last_wc.m);
 	else
@@ -239,7 +239,7 @@ void V4fViewerDialog::OnExportToAvi(wxCommandEvent & event)
 	{
 		int width = dataSet->GetFrames()[0].width;
 		int height = dataSet->GetFrames()[0].height;
-		VideoWriter writer(dlg.GetPath().ToStdString(), CV_FOURCC('M', 'J', 'P', 'G'), 40, Size(width, height), true);
+		VideoWriter writer(dlg.GetPath().ToStdString(), CV_FOURCC('M', 'J', 'P', 'G'), 24, Size(width, height), true);
 		for (int idxCadre = 0; idxCadre < dataSet->GetFrames().size(); idxCadre++)
 		{
 			wxMemoryDC finallyMemoryDC;
@@ -252,6 +252,9 @@ void V4fViewerDialog::OnExportToAvi(wxCommandEvent & event)
 			writer.write(mImage);
 		}
 		writer.release();
+		wchar_t msg[512] = L"";
+		_snwprintf(msg, 511, L"Ôàéë ñîõðàíåí: %s", dlg.GetPath().ToStdWstring().c_str());
+		LOG_INFO(msg);
 	}
 	event.Skip();
 }
@@ -330,7 +333,7 @@ void V4fViewerDialog::paintCadreByIndex(wxBitmap & bmp, wxMemoryDC & bmpDC, int 
 			}
 			if (tmpTmplt.find(L"%ÏÓÒÜ") != std::string::npos)
 				tmpTmplt.replace(tmpTmplt.find(L"%ÏÓÒÜ"), 5, string_to_wstring(info.GetWayCode()).c_str());
-			VWayCoord current_wc = info.GetRealCoord(dataSet->GetFrames()[idxCadre].absCoord + VIDEO_OPTIONS().Value().shiftCoordinate);
+			VWayCoord current_wc = info.GetRealCoord(dataSet->GetFrames()[idxCadre].absCoord + VIDEO_OPTIONS().Value().shiftCoordinateViewer);
 			if (tmpTmplt.find(L"%ÊÌ") != std::string::npos)
 			{
 				wchar_t km_str[16];
@@ -344,7 +347,7 @@ void V4fViewerDialog::paintCadreByIndex(wxBitmap & bmp, wxMemoryDC & bmpDC, int 
 				tmpTmplt.replace(tmpTmplt.find(L"%Ì"), 2, m_str);
 			}
 			if (tmpTmplt.find(L"%ÏÅÐÅÃÎÍ") != std::string::npos)
-				tmpTmplt.replace(tmpTmplt.find(L"%ÏÅÐÅÃÎÍ"), 8, string_to_wstring(info.GetAreaPeregon(dataSet->GetFrames()[idxCadre].absCoord + VIDEO_OPTIONS().Value().shiftCoordinate - 1.0, dataSet->GetFrames()[idxCadre].absCoord + VIDEO_OPTIONS().Value().shiftCoordinate + 1.0)).c_str());
+				tmpTmplt.replace(tmpTmplt.find(L"%ÏÅÐÅÃÎÍ"), 8, string_to_wstring(info.GetAreaPeregon(dataSet->GetFrames()[idxCadre].absCoord + VIDEO_OPTIONS().Value().shiftCoordinateViewer - 1.0, dataSet->GetFrames()[idxCadre].absCoord + VIDEO_OPTIONS().Value().shiftCoordinateViewer + 1.0)).c_str());
 
 			subtitleMemoryDC->SetFont(wxFont((int)(heightSubtitle * 0.6), wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
 			subtitleMemoryDC->DrawLabel(tmpTmplt.c_str(), wxRect(0, (int)(-heightSubtitle * 0.1), width, heightSubtitle), wxALIGN_CENTER);

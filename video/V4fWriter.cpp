@@ -23,7 +23,7 @@ bool V4fWriter::IsOpened()
 
 void V4fWriter::AddFrame(cv::Mat frame)
 {
-	if (!frame.empty() && Opened && CURRENT_POSITION().Value().absolutePosition > 0)
+	if (!frame.empty() && Opened && CURRENT_POSITION().Value().abs_coord > 0)
 	{
 		try
 		{
@@ -44,7 +44,7 @@ void V4fWriter::AddFrame(cv::Mat frame)
 					this->Open();
 				}
 				int bufLen = buf.size();
-				V4fFrame new_frame(CURRENT_DPP().Value(), CURRENT_POSITION().Value().absolutePosition, frame.cols, frame.rows, buf);
+				V4fFrame new_frame(CURRENT_DPP().Value(), CURRENT_POSITION().Value().abs_coord, frame.cols, frame.rows, buf);
 				dataSet->WriteFrame(new_frame.dpp, new_frame.absCoord, ENCODE_CV_50, new_frame.height, new_frame.width, new_frame.img.data(), new_frame.img.size());
 			}
 		}
@@ -57,7 +57,7 @@ void V4fWriter::AddFrame(cv::Mat frame)
 
 void V4fWriter::AddFrame(int width, int height, unsigned char * bufData, int bufDataLen)
 {
-	if (Opened && CURRENT_POSITION().Value().absolutePosition > 0)
+	if (Opened && CURRENT_POSITION().Value().abs_coord > 0)
 	{
 		counterFrames++;
 		if(counterFrames != MISSED_FRAMES)
@@ -72,7 +72,7 @@ void V4fWriter::AddFrame(int width, int height, unsigned char * bufData, int buf
 				this->Release();
 				this->Open();
 			}
-			V4fFrame new_frame(CURRENT_DPP().Value(), CURRENT_POSITION().Value().absolutePosition, width, height, bufData, bufDataLen);
+			V4fFrame new_frame(CURRENT_DPP().Value(), CURRENT_POSITION().Value().abs_coord, width, height, bufData, bufDataLen);
 			dataSet->WriteFrame(new_frame.dpp, new_frame.absCoord, ENCODE_CV_50, new_frame.height, new_frame.width, new_frame.img.data(), new_frame.img.size());
 		}
 	}
@@ -80,7 +80,7 @@ void V4fWriter::AddFrame(int width, int height, unsigned char * bufData, int buf
 
 bool V4fWriter::Open()
 {
-	if (Opened || CURRENT_POSITION().Value().dir <= 0) 
+	if (Opened || CURRENT_POSITION().Value().direction <= 0) 
 		return false;
 
 	try
@@ -95,11 +95,11 @@ bool V4fWriter::Open()
 		char full_path [MAX_PATH] = "", short_path [128] = "";
 		strftime(hms, 31, "%Hh%Mm%Ss", localtime(&now));
 		_snprintf(short_path, 127, "%s_%s.v4f", wstring_to_string(cameraName).c_str(), hms);
-		CreateFullPath(full_path, CURRENT_POSITION().Value().dir, CURRENT_POSITION().Value().way,
+		CreateFullPath(full_path, CURRENT_POSITION().Value().direction, CURRENT_POSITION().Value().way,
 			CURRENT_POSITION().Value().start_time, short_path, wstring_to_string(VIDEO_OPTIONS().Value().video_server));
 		fullPath = string_to_wstring(full_path);
 
-		dataSet = new V4fDataSet(wstring_to_string(fullPath), short_path, CURRENT_POSITION().Value().dir, CURRENT_POSITION().Value().way, CURRENT_POSITION().Value().start_time);
+		dataSet = new V4fDataSet(wstring_to_string(fullPath), short_path, CURRENT_POSITION().Value().direction, CURRENT_POSITION().Value().way, CURRENT_POSITION().Value().start_time);
 		if(dataSet)
 		{
 			dataSet->OpenWriteFile();

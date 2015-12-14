@@ -29,21 +29,21 @@ bool VJpgWriter::IsOpened()
 
 void VJpgWriter::AddFrame(cv::Mat frame)
 {
-	if (!frame.empty() && Opened && CURRENT_POSITION().Value().absolutePosition > 0)
+	if (!frame.empty() && Opened && CURRENT_POSITION().Value().abs_coord > 0)
 	{
 		/*if (isWayStarted)
 		{*/
 		SECURITY_ATTRIBUTES sa; 
 		sa.nLength= sizeof(sa);
 		sa.lpSecurityDescriptor= NULL;			
-		double distance = CURRENT_POSITION().Value().absolutePosition - lastPosition;
+		double distance = CURRENT_POSITION().Value().abs_coord - lastPosition;
 		if (abs(distance) >= ((double)intervalRecording))
 		{
 			time_t now = time(NULL);
 			char buff[22];
 			strftime(buff, 22, "%Y%m%d", localtime(&now)); // %Hh%Mm%Ss
 			char _jpgDir [256] = "";
-			_snprintf(_jpgDir, 255, "%s_%i_%s", buff, CURRENT_POSITION().Value().dir, CURRENT_POSITION().Value().way);
+			_snprintf(_jpgDir, 255, "%s_%i_%s", buff, CURRENT_POSITION().Value().direction, CURRENT_POSITION().Value().way);
 			std::wstring new_jpgDir(string_to_wstring((const char *) _jpgDir));
 			std::wstring fullPath;
 			const wchar_t * ch = VIDEO_OPTIONS().Value().video_server.c_str();
@@ -61,7 +61,7 @@ void VJpgWriter::AddFrame(cv::Mat frame)
 			_snprintf(fileName, 255, "%s_%ikm%im.jpg", wstring_to_string(cameraName).c_str(), CURRENT_POSITION().Value().km, CURRENT_POSITION().Value().m);
 			fullPath += (L"\\" + string_to_wstring((const char *) fileName));
 			imwrite(wstring_to_string(fullPath),frame);
-			lastPosition = CURRENT_POSITION().Value().absolutePosition;
+			lastPosition = CURRENT_POSITION().Value().abs_coord;
 		}
 	}
 	else
@@ -75,7 +75,7 @@ bool VJpgWriter::Open()
 		throw VSimpleException(L"Не удалось начать запись, проверьте подключение камеры.", L"", boost::str(boost::wformat(L"%s") % __FILE__), __LINE__);
 		return false;
 	}
-	if (Opened || CURRENT_POSITION().Value().dir <= 0) 
+	if (Opened || CURRENT_POSITION().Value().direction <= 0) 
 		return false;
 	else
 	{
@@ -89,7 +89,7 @@ bool VJpgWriter::Open()
 		char buff[22];
 		strftime(buff, 22, "%Y%m%d", localtime(&now)); // %Hh%Mm%Ss
 		char _jpgDir [256] = "";
-		_snprintf(_jpgDir, 255, "%s_%i_%s", buff, CURRENT_POSITION().Value().dir, CURRENT_POSITION().Value().way);
+		_snprintf(_jpgDir, 255, "%s_%i_%s", buff, CURRENT_POSITION().Value().direction, CURRENT_POSITION().Value().way);
 		jpgDir = std::wstring(string_to_wstring((const char *) _jpgDir));
 		std::wstring fullPath;
 		const wchar_t * ch = VIDEO_OPTIONS().Value().video_server.c_str();
