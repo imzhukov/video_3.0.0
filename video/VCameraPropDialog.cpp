@@ -262,7 +262,7 @@ END_EVENT_TABLE()
 
 ///Конструктор
 VCameraPropDialog::VCameraPropDialog(wxWindow * parent,	std::vector<VCameraBase *> & _prop)
-	: wxDialog(parent, wxID_ANY, L"Настройка камер", wxDefaultPosition, wxSize(600, 450), wxDEFAULT_DIALOG_STYLE)
+	: wxDialog(parent, wxID_ANY, L"Настройка камер", wxDefaultPosition, wxSize(600, 450), wxDEFAULT_DIALOG_STYLE), prop()
 {	
 	for(size_t i = 0; i < _prop.size(); i++)
 	{
