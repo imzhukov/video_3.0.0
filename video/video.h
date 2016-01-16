@@ -182,7 +182,7 @@ public:
 DECLARE_APP(VApp);
 IMPLEMENT_APP(VApp);
 
-DECLARE_VARIABLE(std::wstring, config_folder, VFileName(VFileName::GetHomeDir(), L"Analysis3\\config\\").GetPath())
+DECLARE_VARIABLE(std::wstring, config_folder, VFileName(VFileName::GetHomeDir(), L"\\AppData\\Roaming\\video\\config\\").GetPath())
 #define CONFIG_FOLDER config_folder().Value()
-DECLARE_VARIABLE(std::wstring, log_folder, VFileName(VFileName::GetHomeDir(), L"Analysis3\\log\\").GetPath())
+DECLARE_VARIABLE(std::wstring, log_folder, VFileName(VFileName::GetHomeDir(), L"\\AppData\\Roaming\\video\\log\\").GetPath())
 #define LOG_FOLDER log_folder().Value()
