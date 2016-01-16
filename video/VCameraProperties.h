@@ -42,7 +42,7 @@ public:
 	///Конструктор с параметрами
 	VCameraBase(int _type, std::wstring Name, int _type_rec);
 	///Виртуальный деструктор
-	~VCameraBase(){}
+	virtual ~ VCameraBase(){}
 	///Метод для получения имени камеры
 	std::wstring GetCameraName();
 	///Метод для получения пути к папке для записи
@@ -80,7 +80,7 @@ public:
 	/// Конструктор со строкой из файла конфигурации
 	VRTSPCameraProperties(std::wstring conf_str, int version);
 	/// Деструктор
-	~VRTSPCameraProperties(){};
+	virtual ~VRTSPCameraProperties(){};
 	/// Возвращает адрес камеры
 	const std::wstring& GetAddress() const;
 	///Метод для получения указателя на адрес камеры
@@ -100,7 +100,7 @@ public:
 	/// Конструктор со строкой из файла конфигурации
 	VJAICameraProperties(std::wstring conf_str, int version);
 	/// Деструктор
-	~VJAICameraProperties(){};
+	virtual ~VJAICameraProperties(){};
 	///Метод для получения указателя на номер камеры
 	int * GetNumCameraPtr();
 	///Вернуть строку для файла конфигурации
