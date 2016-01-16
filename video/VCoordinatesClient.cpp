@@ -27,17 +27,17 @@ void VCoordinatesClient::write(int currentDpp, boost::posix_time::time_duration 
 	deadline_.expires_from_now(timeout);
 	try
 	{
-		if(socket_.is_open())
+		if (socket_.is_open())
 		{
 			//io_service_.post(boost::bind(&VCoordinatesClient::do_write, this, currentDpp));
 			memcpy(write_msg_.signature, SIG_COORD_QUESTION, 8);
 			write_msg_.dpp = currentDpp;
-			boost::asio::async_write(socket_, boost::asio::buffer(&write_msg_, sizeof(write_msg_)), 
+			boost::asio::async_write(socket_, boost::asio::buffer(&write_msg_, sizeof(write_msg_)),
 				boost::bind(&VCoordinatesClient::handle_write, this, boost::asio::placeholders::error));
 			boost::asio::async_read(socket_, boost::asio::buffer(&read_msg_, sizeof(read_msg_)), boost::bind(&VCoordinatesClient::handle_read_header, this, boost::asio::placeholders::error));
 		}
 	}
-	catch(std::exception & e)
+	catch (std::exception & e)
 	{
 		LOG_ERROR(string_to_wstring(e.what()).c_str());
 	}
@@ -77,12 +77,12 @@ void VCoordinatesClient::handle_connect(const boost::system::error_code& error)
 
 void VCoordinatesClient::handle_read_header(const boost::system::error_code& error)
 {
-    if (!error)
-    {
-      /*boost::asio::async_read(socket_,
-          boost::asio::buffer(&read_msg_, sizeof(read_msg_)),
-          boost::bind(&VCoordinatesClient::handle_read_body, this,
-            boost::asio::placeholders::error));*/
+	if (!error)
+	{
+		/*boost::asio::async_read(socket_,
+			boost::asio::buffer(&read_msg_, sizeof(read_msg_)),
+			boost::bind(&VCoordinatesClient::handle_read_body, this,
+			  boost::asio::placeholders::error));*/
 		CURRENT_POSITION().Lock();
 		CURRENT_POSITION().Value().km = read_msg_.km;
 		CURRENT_POSITION().Value().m = read_msg_.m;
@@ -97,28 +97,28 @@ void VCoordinatesClient::handle_read_header(const boost::system::error_code& err
 				CURRENT_POSITION().Value().way[i] = read_msg_.way[i];
 		}
 		else
-			strcpy(CURRENT_POSITION().Value().way," NO WAY");
-		if(*(read_msg_.peregon))
+			strcpy(CURRENT_POSITION().Value().way, " NO WAY");
+		if (*(read_msg_.peregon))
 			strncpy(CURRENT_POSITION().Value().peregon, read_msg_.peregon, 79);
 		CURRENT_POSITION().Unlock();
 		//write(CURRENT_DPP().Value(), boost::posix_time::millisec(200));
-    }
-    else
-    {
-		wchar_t msg [512] = L"";
+	}
+	else
+	{
+		wchar_t msg[512] = L"";
 		_snwprintf(msg, 511, L"Ошибка чтения заголовка %i: %s", error.value(), string_to_wstring(error.message()).c_str());
 		LOG_ERROR(msg);
 		do_close();
-    }
+	}
 }
 
 void VCoordinatesClient::handle_read_body(const boost::system::error_code& error)
 {
-    if (!error && !strcmp(read_msg_.signature, SIG_COORD_ANSWER))
-    {
+	if (!error && !strcmp(read_msg_.signature, SIG_COORD_ANSWER))
+	{
 		CURRENT_POSITION().Lock();
 		CURRENT_POSITION().Value().SetCoordAnswer(read_msg_);
-		/*if(!CURRENT_POSITION().Value().increaseAbscoord && CURRENT_POSITION().Value().dpp != 0xFFFFFFFF 
+		/*if(!CURRENT_POSITION().Value().increaseAbscoord && CURRENT_POSITION().Value().dpp != 0xFFFFFFFF
 			&& CURRENT_POSITION().Value().absolutePosition != read_msg_.abs_coord)
 		{
 			CURRENT_POSITION().Value().increaseAbscoord = (CURRENT_POSITION().Value().absolutePosition < read_msg_.abs_coord) ? 1 : -1;
@@ -138,11 +138,11 @@ void VCoordinatesClient::handle_read_body(const boost::system::error_code& error
 			strcpy(CURRENT_POSITION().Value().way," NO WAY");
 		if(*(read_msg_.peregon))
 			strncpy(CURRENT_POSITION().Value().peregon, read_msg_.peregon, 79);*/
-		CURRENT_POSITION().Unlock();	  
+		CURRENT_POSITION().Unlock();
 	}
 	else
 	{
-		wchar_t msg [512] = L"";
+		wchar_t msg[512] = L"";
 		_snwprintf(msg, 511, L"Ошибка чтения тела протокола %i: %s", error.value(), string_to_wstring(error.message()).c_str());
 		LOG_ERROR(msg);
 		do_close();
