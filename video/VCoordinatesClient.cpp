@@ -24,11 +24,18 @@ VCoordinatesClient::~VCoordinatesClient()
 
 void VCoordinatesClient::write(int currentDpp, boost::posix_time::time_duration timeout)
 {
-	//deadline_.expires_from_now(timeout);
+	deadline_.expires_from_now(timeout);
 	try
 	{
 		if(socket_.is_open())
-			io_service_.post(boost::bind(&VCoordinatesClient::do_write, this, currentDpp));
+		{
+			//io_service_.post(boost::bind(&VCoordinatesClient::do_write, this, currentDpp));
+			memcpy(write_msg_.signature, SIG_COORD_QUESTION, 8);
+			write_msg_.dpp = currentDpp;
+			boost::asio::async_write(socket_, boost::asio::buffer(&write_msg_, sizeof(write_msg_)), 
+				boost::bind(&VCoordinatesClient::handle_write, this, boost::asio::placeholders::error));
+			boost::asio::async_read(socket_, boost::asio::buffer(&read_msg_, sizeof(read_msg_)), boost::bind(&VCoordinatesClient::handle_read_header, this, boost::asio::placeholders::error));
+		}
 	}
 	catch(std::exception & e)
 	{
@@ -54,7 +61,7 @@ void VCoordinatesClient::handle_connect(const boost::system::error_code& error)
 	if (!error)
     {
 		strncpy(read_msg_.signature, SIG_COORD_ANSWER, 8);
-		boost::asio::async_read(socket_, boost::asio::buffer(&read_msg_, sizeof(read_msg_)), boost::bind(&VCoordinatesClient::handle_read_header, this, boost::asio::placeholders::error));
+		write(CURRENT_DPP().Value(), boost::posix_time::millisec(200));
 		if(!good_connection)
 			LOG_INFO(L"Успешное подключение к серверу координаты");
 		good_connection = true;
@@ -94,6 +101,7 @@ void VCoordinatesClient::handle_read_header(const boost::system::error_code& err
 		if(*(read_msg_.peregon))
 			strncpy(CURRENT_POSITION().Value().peregon, read_msg_.peregon, 79);
 		CURRENT_POSITION().Unlock();
+		//write(CURRENT_DPP().Value(), boost::posix_time::millisec(200));
     }
     else
     {
@@ -151,6 +159,7 @@ void VCoordinatesClient::do_write(int currentDpp)
 			write_msg_.dpp = currentDpp;
 			boost::asio::async_write(socket_, boost::asio::buffer(&write_msg_, sizeof(write_msg_)), 
 				boost::bind(&VCoordinatesClient::handle_write, this, boost::asio::placeholders::error));
+			boost::asio::async_read(socket_, boost::asio::buffer(&read_msg_, sizeof(read_msg_)), boost::bind(&VCoordinatesClient::handle_read_header, this, boost::asio::placeholders::error));
 		}
 	}
 	catch(std::exception & e)
@@ -163,6 +172,7 @@ void VCoordinatesClient::handle_write(const boost::system::error_code& error)
 {
 	if (!error && socket_.is_open())
     {
+		boost::asio::async_read(socket_, boost::asio::buffer(&read_msg_, sizeof(read_msg_)), boost::bind(&VCoordinatesClient::handle_read_header, this, boost::asio::placeholders::error));
     }
     else
     {

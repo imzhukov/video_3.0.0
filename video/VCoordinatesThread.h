@@ -21,6 +21,9 @@ class VCoordinatesThread : public wxThread
 	wxFrame * pFrame;						//Родительское окно
 	std::string ip_tcp;
 	int port_tcp;
+
+	boost::asio::io_service askc_service;
+	VCoordinatesClient * client;
 public:
 	/// Конструктор
 	VCoordinatesThread(wxFrame * m_pFrame, std::string _ip_udp, int _port_tcp);

@@ -52,6 +52,7 @@ struct CoordAnswer
 	long pch;           // номер пч
 	char pchname[80];   // имя пч
 	int64_t start_time;	// время поездки
+	int turnaround;
 
 	void SetCoordAnswer(const CoordAnswer & in_answer)
 	{
@@ -65,6 +66,7 @@ struct CoordAnswer
 		memcpy(this->peregon, in_answer.peregon, 80);
 		this->pch = in_answer.pch;
 		this->start_time = in_answer.start_time;
+		this->turnaround = in_answer.turnaround;
 	}
 };
 #pragma pack(pop)

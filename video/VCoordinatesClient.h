@@ -3,6 +3,7 @@
 #include <boost/asio/deadline_timer.hpp>
 
 #include "VCoordinatesRecord.h"
+#include "VCodeDPPThread.h"
 #include "VLog.h"
 
 using boost::asio::ip::tcp;
