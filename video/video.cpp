@@ -301,6 +301,16 @@ VMainFrame::VMainFrame(wxWindow * parent, wxWindowID id, const wxString & title,
 	
 	LogViewer=new VLogViewer(this, 1001);	
 	SetupMenu();
+
+	std::string blocks_it("aaa sss");
+	const char * obj_name_start = blocks_it.c_str();
+	while (*obj_name_start)
+		obj_name_start++;
+	const char * obj_name_end = obj_name_start++;
+	while (*obj_name_end)
+		obj_name_end++;
+	char obj_name_str[32] = "";
+	_snprintf(obj_name_str, obj_name_end - obj_name_start, "%s", obj_name_start);
 }
 
 /** Деструктор*/
