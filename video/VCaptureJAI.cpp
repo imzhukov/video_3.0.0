@@ -58,81 +58,86 @@ bool VCaptureJAI::OpenFactoryAndCamera()
         return FALSE;
     }
 
-    // Get camera ID
-    iSize = (uint32_t) sizeof(m_sCameraId);
-    retval = J_Factory_GetCameraIDByIndex(m_hFactory, 0, m_sCameraId, &iSize);
-    if (retval != J_ST_SUCCESS)
-    {
-        LOG_ERROR(L"Невозможно получить ID камер!");
-        return FALSE;
-    }
-	wchar_t msg [128];
-	_snwprintf(msg, 127, L"ID камеры: %d", iNumDev);
-    LOG_INFO(msg);
+	for(int idx_camera = 0; idx_camera < iNumDev; idx_camera++)
+	{
+		// Get camera ID
+		iSize = (uint32_t) sizeof(m_sCameraId);
+		m_sCameraId[0] = 0;
+		retval = J_Factory_GetCameraIDByIndex(m_hFactory, idx_camera, m_sCameraId, &iSize);
+		if (retval != J_ST_SUCCESS)
+		{
+			LOG_ERROR(L"Невозможно получить ID камер!");
+			continue;
+		}
+		wchar_t msg [128];
+		_snwprintf(msg, 127, L"ID камеры: %d", idx_camera);
+		LOG_INFO(msg);
 
-    // Open camera
-    retval = J_Camera_Open(m_hFactory, m_sCameraId, &m_hCam);
-    if (retval != J_ST_SUCCESS)
-    {
-        LOG_ERROR(L"Невозможно открыть камеру!");
-        return FALSE;
-    }
-    LOG_INFO(L"Камера успешно открыта");
+		// Open camera
+		retval = J_Camera_Open(m_hFactory, m_sCameraId, &m_hCam);
+		if (retval != J_ST_SUCCESS)
+		{
+			LOG_ERROR(L"Невозможно открыть камеру!");
+			continue;
+		}
+		LOG_INFO(L"Камера успешно открыта");
 
-    int64_t int64Val;
-    // Get Width from the camera
-    retval = J_Camera_GetValueInt64(m_hCam, (int8_t*) NODE_NAME_WIDTH, &int64Val);
-    if (retval != J_ST_SUCCESS)
-    {
-        LOG_ERROR(L"Невозможно получить ширину кадра!");
-        return FALSE;
-    }
-	else
-		width = int64Val;
+		int64_t int64Val;
+		// Get Width from the camera
+		retval = J_Camera_GetValueInt64(m_hCam, (int8_t*) NODE_NAME_WIDTH, &int64Val);
+		if (retval != J_ST_SUCCESS)
+		{
+			LOG_ERROR(L"Невозможно получить ширину кадра!");
+			continue;
+		}
+		else
+			width = int64Val;
 
-    // Get Height from the camera
-    retval = J_Camera_GetValueInt64(m_hCam, (int8_t*) NODE_NAME_HEIGHT, &int64Val);
-    if (retval != J_ST_SUCCESS)
-    {
-        LOG_ERROR(L"Невозможно получить высоту кадра");
-        return FALSE;
-    }
-	else
-		height = int64Val;
+		// Get Height from the camera
+		retval = J_Camera_GetValueInt64(m_hCam, (int8_t*) NODE_NAME_HEIGHT, &int64Val);
+		if (retval != J_ST_SUCCESS)
+		{
+			LOG_ERROR(L"Невозможно получить высоту кадра");
+			continue;
+		}
+		else
+			height = int64Val;
     
-	SIZE	ViewSize;
-	ViewSize.cx = width;
-	ViewSize.cy = height;
-	// Get pixelformat from the camera
-	int64_t pixelFormat;
-    retval = J_Camera_GetValueInt64(m_hCam, (int8_t*) NODE_NAME_PIXELFORMAT, &pixelFormat);
-    if (retval != J_ST_SUCCESS)
-    {
-        LOG_ERROR(L"Невозможно получить значение формата пиксела");
-        return FALSE;
-    }
+		SIZE	ViewSize;
+		ViewSize.cx = width;
+		ViewSize.cy = height;
+		// Get pixelformat from the camera
+		int64_t pixelFormat;
+		retval = J_Camera_GetValueInt64(m_hCam, (int8_t*) NODE_NAME_PIXELFORMAT, &pixelFormat);
+		if (retval != J_ST_SUCCESS)
+		{
+			LOG_ERROR(L"Невозможно получить значение формата пиксела");
+			continue;
+		}
 
-    // Calculate number of bits (not bytes) per pixel using macro
-    int bpp = J_BitsPerPixel(pixelFormat);
+		// Calculate number of bits (not bytes) per pixel using macro
+		int bpp = J_BitsPerPixel(pixelFormat);
 
-    // Open stream
-    retval = J_Image_OpenStream(m_hCam, 0, reinterpret_cast<J_IMG_CALLBACK_OBJECT>(this), reinterpret_cast<J_IMG_CALLBACK_FUNCTION>(&VCaptureJAI::StreamCBFunc), &m_hThread, (ViewSize.cx*ViewSize.cy*bpp)/8);
-    if (retval != J_ST_SUCCESS)
-	{
-		LOG_ERROR(L"Невозможно открыть поток");
-        return FALSE;
-    }
-    LOG_INFO(L"Успешное открытие потока");
+		// Open stream
+		retval = J_Image_OpenStream(m_hCam, 0, reinterpret_cast<J_IMG_CALLBACK_OBJECT>(this), reinterpret_cast<J_IMG_CALLBACK_FUNCTION>(&VCaptureJAI::StreamCBFunc), &m_hThread, (ViewSize.cx*ViewSize.cy*bpp)/8);
+		if (retval != J_ST_SUCCESS)
+		{
+			LOG_ERROR(L"Невозможно открыть поток");
+			continue;
+		}
+		LOG_INFO(L"Успешное открытие потока");
 
-    // Start Acquision
-    retval = J_Camera_ExecuteCommand(m_hCam, (int8_t*) NODE_NAME_ACQSTART);
-    if (retval != J_ST_SUCCESS)
-	{
-		LOG_ERROR(L"Невозможно начать обработку кадра");
-        return FALSE;
-    }
+		// Start Acquision
+		retval = J_Camera_ExecuteCommand(m_hCam, (int8_t*) NODE_NAME_ACQSTART);
+		if (retval != J_ST_SUCCESS)
+		{
+			LOG_ERROR(L"Невозможно начать обработку кадра");
+			continue;
+		}
+		return TRUE;
+	}
 
-    return TRUE;
+    return FALSE;
 }
 
 void VCaptureJAI::StreamCBFunc(J_tIMAGE_INFO * pAqImageInfo)
