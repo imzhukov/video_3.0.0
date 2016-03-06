@@ -8,6 +8,7 @@ VCaptureThread::VCaptureThread(VCameraBase * camera_props, wxWindow * in_screen,
 	bufData = 0;
 	bufDataLen = 0;
 	captureType = camera_props->GetType();
+	capture = 0;
 
 	//writer.reset(new V4fWriter(camera_props->GetDirectory(), camera_props->GetCameraName()));
 	//writer.reset(new V4fWriter(camera_props->GetCameraName()));
@@ -171,9 +172,10 @@ void VCaptureThread::Stop()
 
 VCaptureThread::~VCaptureThread()
 {
-	if(bufDataLen)
+	if(bufDataLen && bufData)
 		delete [] bufData;
-	delete capture;
+	if(capture)
+		delete capture;
 	wxThreadEvent e(wxEVT_COMMAND_CAPTURETHREAD_COMPLETED);
 	pFrame->GetEventHandler()->AddPendingEvent(e);
 }

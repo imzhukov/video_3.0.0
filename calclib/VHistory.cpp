@@ -143,7 +143,7 @@ void VOperationRecord::SetCode(unsigned int uiCode)
 }
 
 /** ¬озвращает длину текстового описани€*/
-unsigned int VOperationRecord::GetTextLength() const
+uint32_t VOperationRecord::GetTextLength() const
 {
 	return text_length;
 }
