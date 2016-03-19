@@ -265,6 +265,8 @@ wxThread::ExitCode VCodeDPPThread::Entry()
 			LOG_ERROR(L"Ошибка приёма кода ДПП");
 		}
 	}
+	if(hCom != INVALID_HANDLE_VALUE)
+		CloseHandle(hCom);
 	return (wxThread::ExitCode)0;
 }
 

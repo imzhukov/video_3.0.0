@@ -219,8 +219,8 @@ VCameraControl::VCameraControl(VCameraBase * camera_props, wxWindow* parent, int
 VCameraControl::~VCameraControl()
 {
 	*existing = false;
-	if(capture)
-		capture->Delete();
+	if(capture && capture->TestDestroy())
+		capture->Kill();
 }
 
 /// Возвращает размер

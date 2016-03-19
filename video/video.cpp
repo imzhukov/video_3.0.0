@@ -314,26 +314,37 @@ VMainFrame::~VMainFrame()
 
 	{
 		//wxCriticalSectionLocker enter(m_pThreadCScoordinates);
-		if(coordinates)
-			coordinates->Delete();
+		if (coordinates)
+		{
+			coordinates->TestDestroy();
+			coordinates->Kill();
+		}
 	}
 	/// Не доходим до этого места. Утечка и поломка порта
 	{
-		if(dpp)
+		if (dpp)
 		{
-			dpp->Delete();
+			//dpp->TestDestroy();
+			dpp->Kill();
 		}
 	}
 }
 
 void VMainFrame::OnCompleteDppThread(wxThreadEvent & event)
 {
-	dpp = 0;
+	if (dpp)
+	{
+		dpp->Delete();
+		dpp = 0;
+	}
 }
 
 void VMainFrame::OnCompleteCoordThread(wxThreadEvent & event)
 {
-	coordinates = 0;
+	if (coordinates) {
+		coordinates->Delete();
+		coordinates = 0; 
+	}
 }
 
 /// Настраивает меню
