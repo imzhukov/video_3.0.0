@@ -1,4 +1,5 @@
 #include "VCaptureJAI.h"
+#include <Jai_Factory_Dynamic.h>
 
 VCaptureJAI::VCaptureJAI(VCameraBase * in_camera_props, bool & isConnected) : VCapture()
 {
@@ -202,25 +203,32 @@ void VCaptureJAI::StreamCBFunc(J_tIMAGE_INFO * pAqImageInfo)
 /// Деструктор
 VCaptureJAI::~VCaptureJAI()
 {
-    J_STATUS_TYPE   retval;
-    if (m_hCam)
-    {
-        // Close camera
-        retval = J_Camera_Close(m_hCam);
-        if (retval != J_ST_SUCCESS)
-            LOG_ERROR(L"Невозможно завершить работу с камерой");
-        m_hCam = NULL;
-        LOG_INFO(L"Завершилась работа с камерой JAI");
-    }
-    if (m_hFactory)
-    {
-        // Close factory
-        retval = J_Factory_Close(m_hFactory);
-        if (retval != J_ST_SUCCESS)
-            LOG_ERROR(L"Невозможно закрыть сервис JAI камер");
-        m_hFactory = NULL;
-		LOG_INFO(L"Успешно завершена работа с сервисом JAI камер");
-    }
+	try
+	{
+		J_STATUS_TYPE   retval;
+		if (m_hCam)
+		{
+			// Close camera
+			retval = J_Camera_Close(m_hCam);
+			if (retval != J_ST_SUCCESS)
+				LOG_ERROR(L"Невозможно завершить работу с камерой");
+			m_hCam = NULL;
+			LOG_INFO(L"Завершилась работа с камерой JAI");
+		}
+		if (m_hFactory)
+		{
+			// Close factory
+			retval = J_Factory_Close(m_hFactory);
+			if (retval != J_ST_SUCCESS)
+				LOG_ERROR(L"Невозможно закрыть сервис JAI камер");
+			m_hFactory = NULL;
+			LOG_INFO(L"Успешно завершена работа с сервисом JAI камер");
+		}
+	}
+	catch (std::exception e)
+	{
+		LOG_ERROR(L"Некорректное завершение работы с потоком JAI-камеры");
+	}
 }
 
 bool VCaptureJAI::IsConnected() const

@@ -145,7 +145,7 @@ public:
 	/** Устанавливает код операции*/
 	void SetCode(unsigned int uiCode);
 	/** Возвращает длину текстового описания*/
-	size_t GetTextLength() const;
+	uint32_t GetTextLength() const;
 	/** Возвращает указатель на текстовое описание*/
 	const char * GetTextDescription() const;
 	/** Устанавливает текстовое описание*/

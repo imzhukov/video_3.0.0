@@ -1,6 +1,7 @@
 #include "VCapture.h"
 #include "VCameraProperties.h"
 
+//#define JAI_SDK_DYNAMIC_LOAD
 #include <Jai_Factory.h>
 
 #define NODE_NAME_WIDTH     "Width"
