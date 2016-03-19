@@ -171,6 +171,8 @@ wxThread::ExitCode VCodeDPPThread::Entry()
 	{
 		LOG_ERROR(L"Ошибка открытия  COM-порта");
 	}
+							//Тест
+	FILE * f = fopen("E:/dpp", "w");
 	while (!TestDestroy() && hCom != INVALID_HANDLE_VALUE)
 	{
 		try
@@ -178,7 +180,7 @@ wxThread::ExitCode VCodeDPPThread::Entry()
 			bool isRead = ReadFile(hCom, buf, 1, &bufLen, NULL);
 			if(!isRead)
 				continue;
-			if(bufLen == 1)
+		/*	if(bufLen == 1)
 			{
 				if(!((buf[0]|0x3F)^0x3F))
 				{
@@ -192,11 +194,14 @@ wxThread::ExitCode VCodeDPPThread::Entry()
 				if(!((buf[0]|0x3F)^0xFF))
 				{
 					tmpCodeDpp |= (int (buf[0] & 0x3F)) << 18;
-					if(startReadData)
+					if(startReadData) {
 						CURRENT_DPP().Value() = tmpCodeDpp;
+						//Тест
+						fprintf(f, "%i\n", tmpCodeDpp);
+					}
 					tmpCodeDpp = 0;
 				}				
-			}
+			}*/
 
 /*		if(hCom->is_open())
 		hCom->async_read_some(boost::asio::buffer(&buf, 1), 
@@ -265,6 +270,8 @@ wxThread::ExitCode VCodeDPPThread::Entry()
 			LOG_ERROR(L"Ошибка приёма кода ДПП");
 		}
 	}
+
+	fclose(f);
 	return (wxThread::ExitCode)0;
 }
 
