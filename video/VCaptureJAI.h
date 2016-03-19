@@ -23,7 +23,7 @@ class VCaptureJAI : public VCapture
     PIXELVALUE        m_PixelValue;
     uint32_t        m_PixelType;
 	CRITICAL_SECTION    m_CriticalSection;
-    int8_t          m_sCameraId[J_CAMERA_ID_SIZE];    // Camera ID
+    int8_t          m_sCameraId[4][J_CAMERA_ID_SIZE];    // Camera ID
 	/// Высота изображения
 	mutable int height;
 	/// Ширина изображения

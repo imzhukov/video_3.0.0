@@ -58,26 +58,32 @@ bool VCaptureJAI::OpenFactoryAndCamera()
         return FALSE;
     }
 
+	int	iValidCamera = 0;
 	for(int idx_camera = 0; idx_camera < iNumDev; idx_camera++)
 	{
 		// Get camera ID
-		iSize = (uint32_t) sizeof(m_sCameraId);
-		m_sCameraId[0] = 0;
-		retval = J_Factory_GetCameraIDByIndex(m_hFactory, idx_camera, m_sCameraId, &iSize);
+		iSize = J_CAMERA_ID_SIZE;
+		m_sCameraId[iValidCamera][0] = 0;
+		retval = J_Factory_GetCameraIDByIndex(m_hFactory, idx_camera, m_sCameraId[iValidCamera], &iSize);
 		if (retval != J_ST_SUCCESS)
 		{
 			LOG_ERROR(L"Невозможно получить ID камер!");
+			iValidCamera++;
 			continue;
 		}
-		wchar_t msg [128];
-		_snwprintf(msg, 127, L"ID камеры: %d", idx_camera);
-		LOG_INFO(msg);
+
+		char msg [512] = "";
+		_snprintf(msg, 511, "Camera ID [%i]: %s\0", idx_camera, (const char *) m_sCameraId[iValidCamera]);
+		LOG_INFO(string_to_wstring(msg).c_str());
 
 		// Open camera
-		retval = J_Camera_Open(m_hFactory, m_sCameraId, &m_hCam);
+		// Ошибка -1005
+		retval = J_Camera_Open(m_hFactory, m_sCameraId[iValidCamera], &m_hCam);
 		if (retval != J_ST_SUCCESS)
 		{
-			LOG_ERROR(L"Невозможно открыть камеру!");
+			char msg [512] = "";
+			_snprintf(msg, 511, "Невозможно открыть камеру: %i", retval);
+			LOG_ERROR(string_to_wstring(msg));
 			continue;
 		}
 		LOG_INFO(L"Камера успешно открыта");
@@ -88,6 +94,7 @@ bool VCaptureJAI::OpenFactoryAndCamera()
 		if (retval != J_ST_SUCCESS)
 		{
 			LOG_ERROR(L"Невозможно получить ширину кадра!");
+			iValidCamera++;
 			continue;
 		}
 		else
