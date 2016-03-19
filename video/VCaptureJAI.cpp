@@ -1,5 +1,5 @@
 #include "VCaptureJAI.h"
-#include <Jai_Factory_Dynamic.h>
+//#include <Jai_Factory_Dynamic.h>
 
 VCaptureJAI::VCaptureJAI(VCameraBase * in_camera_props, bool & isConnected) : VCapture()
 {

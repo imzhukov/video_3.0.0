@@ -172,8 +172,8 @@ void VCaptureThread::Stop()
 
 VCaptureThread::~VCaptureThread()
 {
-	if(bufDataLen && bufData)
-		delete [] bufData;
+	/*if(bufDataLen && bufData)
+		delete [] bufData;*/
 	if(capture)
 		delete capture;
 	wxThreadEvent e(wxEVT_COMMAND_CAPTURETHREAD_COMPLETED);
