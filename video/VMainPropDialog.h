@@ -30,6 +30,8 @@
 #define ID_SHIFT_COORDINATE_VIEWER	103
 #define ID_SHIFT_COORDINATE_SPEED_POSITIVE	104
 #define ID_SHIFT_COORDINATE_SPEED_NEGATIVE	105
+#define ID_FORMAT_DPP_OLD 106
+#define ID_FORMAT_DPP_NEW 107
 
 class VMainPropDialog : public wxDialog
 {
@@ -51,6 +53,7 @@ private:
 	float prev_shiftCoordinateViewer;			//Сдвижка координаты для viewer
 	float prev_shiftCoordinateSpeedPositive;	//Сдвижка координаты для положительной скорости
 	float prev_shiftCoordinateSpeedNegative;	//Сдвижка координаты для отрицательной скорости
+	int prev_formatDpp;							//Формат протокола кода ДПП
 
 	wxSpinCtrl *spinIntRecord;
 	wxCheckBox *showSubtitleBox;
@@ -58,6 +61,7 @@ private:
 			*textCtrlDbHost, *textCtrlDbFile, *textCtrlIpUdp, *textCtrlPortUdp, 
 			*textCtrlShiftCoordinateViewer, *textCtrlShiftCoordinateSpeedPositive, *textCtrlShiftCoordinateSpeedNegative;
 	wxRadioButton *locationRdBtnBottom, *locationRdBtnTop;
+	wxRadioButton *formatDppRdBtnOld, *formatDppRdBtnNew;
 
 	wxButton * okButton;
 	wxButton * cancelButton;
@@ -73,6 +77,8 @@ private:
 	void UpdateTmpltSubtitle(wxCommandEvent & event);
 	//Обновление положения субтитров
 	void UpdateLocationSubtitle(wxCommandEvent & event);
+	//Обновление формата протокола кода ДПП
+	void UpdateFormatDpp(wxCommandEvent & event);
 	//Высота субтитров
 	void UpdateHeightSubtitle(wxCommandEvent & event);
 	//Смещение субтитров

@@ -3,6 +3,7 @@
 #include <wx/wx.h>
 #include "options.h"
 
+
 class VVideoOptions
 {
 public:
@@ -23,6 +24,7 @@ public:
 		shiftCoordinateViewer = 0.0f;
 		shiftCoordinateSpeedPositive = 0.0f;
 		shiftCoordinateSpeedNegative = 0.0f;
+		formatDpp = 0;
 	}
 	std::wstring video_server;			//директория видеосервера
 	int intervalRecording;				//Интервал съёмки
@@ -39,6 +41,7 @@ public:
 	float shiftCoordinateViewer;		//Cдвижка координаты для просмотрщика кадров
 	float shiftCoordinateSpeedPositive;	//Cдвижка координаты для положительной скорости
 	float shiftCoordinateSpeedNegative;	//Cдвижка координаты для отрицательной скорости
+	int formatDpp;						//Формат протокола кода ДПП (0 - новый, 1 - старый)
 };
 
 DECLARE_VARIABLE_MT(VVideoOptions, VIDEO_OPTIONS, VVideoOptions())

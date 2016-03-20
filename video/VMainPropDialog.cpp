@@ -19,10 +19,12 @@ BEGIN_EVENT_TABLE(VMainPropDialog,wxDialog)
 	EVT_BUTTON(wxID_OK, VMainPropDialog::OnOkButton)
 	EVT_BUTTON(wxID_CANCEL, VMainPropDialog::OnCancelButton)
 	EVT_UPDATE_UI(ID_SHOWSUBTITLE,VMainPropDialog::OnUpdateUI)
+	EVT_RADIOBUTTON(ID_FORMAT_DPP_NEW, VMainPropDialog::UpdateFormatDpp)
+	EVT_RADIOBUTTON(ID_FORMAT_DPP_OLD, VMainPropDialog::UpdateFormatDpp)
 END_EVENT_TABLE()
 
 VMainPropDialog::VMainPropDialog(wxWindow * parent)
-	: wxDialog(parent, wxID_ANY, L"Настройка программы видеонаблюдения", wxDefaultPosition, wxSize(400, 700), wxDEFAULT_DIALOG_STYLE)
+	: wxDialog(parent, wxID_ANY, L"Настройка программы видеонаблюдения", wxDefaultPosition, wxSize(400, 800), wxDEFAULT_DIALOG_STYLE)
 {
 	prev_intervalRecording = VIDEO_OPTIONS().Value().intervalRecording;
 	prev_showSubtitle = VIDEO_OPTIONS().Value().showSubtitle;
@@ -38,6 +40,7 @@ VMainPropDialog::VMainPropDialog(wxWindow * parent)
 	prev_shiftCoordinateViewer = VIDEO_OPTIONS().Value().shiftCoordinateViewer;
 	prev_shiftCoordinateSpeedPositive = VIDEO_OPTIONS().Value().shiftCoordinateSpeedPositive;
 	prev_shiftCoordinateSpeedNegative = VIDEO_OPTIONS().Value().shiftCoordinateSpeedNegative;
+	prev_formatDpp = VIDEO_OPTIONS().Value().formatDpp;
 
 	wxBoxSizer * mainSizer = new wxBoxSizer(wxVERTICAL);
 
@@ -118,8 +121,7 @@ VMainPropDialog::VMainPropDialog(wxWindow * parent)
 	locationSizer->Add(locationRdBtnTop, 0, wxALL|wxALIGN_RIGHT, 5);
 	mainSizer->Add(locationSizer, 0, wxALL, 5);
 
-	wxStaticBoxSizer * shiftCoordinateSizer = new wxStaticBoxSizer(wxHORIZONTAL, this , L"Смещение координаты [м]");
-	
+	wxStaticBoxSizer * shiftCoordinateSizer = new wxStaticBoxSizer(wxHORIZONTAL, this , L"Смещение координаты [м]");	
 	wxStaticText * shiftCoordinateViewerText = new wxStaticText(this, wxID_ANY, L"Просмотрщик");
 	textCtrlShiftCoordinateViewer = new wxTextCtrl(this, ID_SHIFT_COORDINATE_VIEWER, L"", wxDefaultPosition, wxSize(50,20));
 	wcsncpy(shiftStr, L"", 5);
@@ -143,8 +145,18 @@ VMainPropDialog::VMainPropDialog(wxWindow * parent)
 	textCtrlShiftCoordinateSpeedNegative->SetValue(shiftStr);
 	shiftCoordinateSizer->Add(shiftCoordinateSpeedNegativeText, 0, wxALIGN_RIGHT, 5);
 	shiftCoordinateSizer->Add(textCtrlShiftCoordinateSpeedNegative, 0, wxALIGN_RIGHT, 5);
-
 	mainSizer->Add(shiftCoordinateSizer, 0, wxALL, 5);
+
+	wxStaticBoxSizer * formatDppSizer = new wxStaticBoxSizer(wxHORIZONTAL, this, L"Протокол кода ДПП");
+	formatDppRdBtnNew = new wxRadioButton(this, ID_FORMAT_DPP_NEW, L"Новый");
+	formatDppRdBtnOld = new wxRadioButton(this, ID_FORMAT_DPP_OLD, L"Старый");
+	if (VIDEO_OPTIONS().Value().formatDpp == 0)
+		formatDppRdBtnNew->SetValue(true);
+	else
+		formatDppRdBtnOld->SetValue(true);
+	formatDppSizer->Add(formatDppRdBtnNew, 0, wxALL | wxALIGN_RIGHT, 5);
+	formatDppSizer->Add(formatDppRdBtnOld, 0, wxALL | wxALIGN_RIGHT, 5);
+	mainSizer->Add(formatDppSizer, 0, wxALL, 5);
 
 	wxBoxSizer * buttonSizer = new wxBoxSizer(wxHORIZONTAL);
 	okButton = new wxButton(this, wxID_OK, L"OK");
@@ -226,6 +238,21 @@ void VMainPropDialog::UpdateLocationSubtitle(wxCommandEvent & event)
 	{
 		VIDEO_OPTIONS().Value().locationSubtitle = wxTOP;
 		locationRdBtnBottom->SetValue(false);
+	}
+	event.Skip();
+}
+
+void VMainPropDialog::UpdateFormatDpp(wxCommandEvent & event)
+{
+	if (formatDppRdBtnNew->GetValue())
+	{
+		VIDEO_OPTIONS().Value().formatDpp = 0;
+		formatDppRdBtnOld->SetValue(false);
+	}
+	if (formatDppRdBtnOld->GetValue())
+	{
+		VIDEO_OPTIONS().Value().formatDpp = 1;
+		formatDppRdBtnNew->SetValue(false);
 	}
 	event.Skip();
 }
@@ -314,7 +341,8 @@ void VMainPropDialog::OnOkButton(wxCommandEvent &event)
 		|| VIDEO_OPTIONS().Value().shiftSubtitle != prev_shiftSubtitle || VIDEO_OPTIONS().Value().com != prev_com || VIDEO_OPTIONS().Value().in_server_db != prev_in_server_db
 		|| VIDEO_OPTIONS().Value().in_database != prev_in_database || VIDEO_OPTIONS().Value().ip_udp != prev_ip_udp || VIDEO_OPTIONS().Value().port_udp != prev_port_udp
 		|| VIDEO_OPTIONS().Value().shiftCoordinateViewer != prev_shiftCoordinateViewer || VIDEO_OPTIONS().Value().shiftCoordinateSpeedPositive != prev_shiftCoordinateSpeedPositive
-		|| VIDEO_OPTIONS().Value().shiftCoordinateSpeedNegative != prev_shiftCoordinateSpeedNegative)
+		|| VIDEO_OPTIONS().Value().shiftCoordinateSpeedNegative != prev_shiftCoordinateSpeedNegative
+		|| VIDEO_OPTIONS().Value().formatDpp != prev_formatDpp)
 	{
 		LOG_INFO(L"Настройки видео изменились");
 		EndModal(wxID_OK);
@@ -341,6 +369,7 @@ void VMainPropDialog::OnCancelButton(wxCommandEvent &event)
 	VIDEO_OPTIONS().Value().shiftCoordinateViewer = prev_shiftCoordinateViewer;
 	VIDEO_OPTIONS().Value().shiftCoordinateSpeedNegative = prev_shiftCoordinateSpeedNegative;
 	VIDEO_OPTIONS().Value().shiftCoordinateSpeedPositive = prev_shiftCoordinateSpeedPositive;
+	VIDEO_OPTIONS().Value().formatDpp = prev_formatDpp;
 
 	EndModal(wxID_CANCEL);
 }

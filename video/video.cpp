@@ -224,6 +224,14 @@ VMainFrame::VMainFrame(wxWindow * parent, wxWindowID id, const wxString & title,
 	paramName = L"shiftCoordinateSpeedNegative";
 	if (VideoConfig.Read(paramName, &result))
 		VIDEO_OPTIONS().Value().shiftCoordinateSpeedNegative = atoi(result.c_str());
+	paramName = L"formatDpp";
+	if (VideoConfig.Read(paramName, &result)) {
+		bool new_format = (bool)atoi(result.c_str());
+		if (new_format)
+			VIDEO_OPTIONS().Value().formatDpp = 0;
+		else
+			VIDEO_OPTIONS().Value().formatDpp = 1;
+	}
 			
 	if(VIDEO_OPTIONS().Value().in_server_db != L"" && VIDEO_OPTIONS().Value().in_database != L"")
 		this->RegisteredDatabase = new VRegisteredDatabase(L"video_db", VIDEO_OPTIONS().Value().in_server_db, VIDEO_OPTIONS().Value().in_database, L"");
@@ -452,6 +460,7 @@ void VMainFrame::OnProperties(wxCommandEvent& event)
 		VideoConfig.Write("shiftCoordinateViewer", VIDEO_OPTIONS().Value().shiftCoordinateViewer);
 		VideoConfig.Write("shiftCoordinateSpeedPositive", VIDEO_OPTIONS().Value().shiftCoordinateSpeedPositive);
 		VideoConfig.Write("shiftCoordinateSpeedNegative", VIDEO_OPTIONS().Value().shiftCoordinateSpeedNegative);
+		VideoConfig.Write("formarDpp", (int) VIDEO_OPTIONS().Value().formatDpp);
 		//Проверка подключения к БД
 		if(this->RegisteredDatabase)
 			delete RegisteredDatabase;

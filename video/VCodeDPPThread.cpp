@@ -179,27 +179,62 @@ wxThread::ExitCode VCodeDPPThread::Entry()
 			bool isRead = ReadFile(hCom, buf, 1, &bufLen, NULL);
 			if(!isRead)
 				continue;
-			if(bufLen == 1)
-			{
-				if(!((buf[0]|0x3F)^0x3F))
+
+			//¬ыбирае обработку в зависимости от протокола (новый/старый)
+			if(VIDEO_OPTIONS().Value().formatDpp == 0) {
+				if (indxCodeDppPtr == 3)
 				{
-					tmpCodeDpp |= buf[0];
-					startReadData = true;
-				}
-				if(!((buf[0]|0x3F)^0x7F))
-					tmpCodeDpp |= (int (buf[0] & 0x3F)) << 6;
-				if(!((buf[0]|0x3F)^0xBF))
-					tmpCodeDpp |= (int (buf[0] & 0x3F)) << 12;
-				if(!((buf[0]|0x3F)^0xFF))
-				{
-					tmpCodeDpp |= (int (buf[0] & 0x3F)) << 18;
-					if(startReadData) {
+					checkSum = codeDppPtr[0] + codeDppPtr[1] + codeDppPtr[2] + codeDppPtr[3] + 83 + 4;
+					wchar_t msg[256];
+					//LOG_DEBUG(msg);
+					if (checkSumPtr[3] == buf[0]) {
 						CURRENT_DPP().Value() = tmpCodeDpp;
 					}
+					bt1 = '\0'; bt2 = '\0';
 					tmpCodeDpp = 0;
-				}				
+					indxCodeDppPtr = 0;
+					startReadData = false;
+				}
+				//ѕишем информацию из com-порта
+				if (startReadData)
+				{
+					codeDppPtr[indxCodeDppPtr] = buf[0];
+					indxCodeDppPtr++;
+					continue;
+				}
+				//ѕусть влетели в поток в какой-то момент ищем 2 известных байта (83d и 4d)
+				if (!startReadData && buf[0] == 'S')
+					bt1 = buf[0];
+				if (!startReadData && buf[0] == 4)
+					bt2 = buf[0];
+				if (bt1 == 'S' && bt2 == 4)
+				{
+					startReadData = true;
+					indxCodeDppPtr = 0;
+				}
 			}
-
+			else if (VIDEO_OPTIONS().Value().formatDpp == 1) {
+				if (bufLen == 1)
+				{
+					if (!((buf[0] | 0x3F) ^ 0x3F))
+					{
+						tmpCodeDpp |= buf[0];
+						startReadData = true;
+					}
+					if (!((buf[0] | 0x3F) ^ 0x7F))
+						tmpCodeDpp |= (int(buf[0] & 0x3F)) << 6;
+					if (!((buf[0] | 0x3F) ^ 0xBF))
+						tmpCodeDpp |= (int(buf[0] & 0x3F)) << 12;
+					if (!((buf[0] | 0x3F) ^ 0xFF))
+					{
+						tmpCodeDpp |= (int(buf[0] & 0x3F)) << 18;
+						if (startReadData) {
+							CURRENT_DPP().Value() = tmpCodeDpp;
+						}
+						tmpCodeDpp = 0;
+					}
+				}
+			}
 /*		if(hCom->is_open())
 		hCom->async_read_some(boost::asio::buffer(&buf, 1), 
 			[this](boost::system::error_code ec, std::size_t bytes_recvd)*/

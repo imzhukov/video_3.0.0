@@ -6,6 +6,7 @@
 
 #include "VLog.h"
 #include "VCoordinatesRecord.h"
+#include "VVideoOptions.h"
 
 wxDECLARE_EVENT(wxEVT_COMMAND_DPPTHREAD_COMPLETED, wxThreadEvent);
 
