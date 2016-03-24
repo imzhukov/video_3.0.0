@@ -225,13 +225,8 @@ VMainFrame::VMainFrame(wxWindow * parent, wxWindowID id, const wxString & title,
 	if (VideoConfig.Read(paramName, &result))
 		VIDEO_OPTIONS().Value().shiftCoordinateSpeedNegative = atoi(result.c_str());
 	paramName = L"formatDpp";
-	if (VideoConfig.Read(paramName, &result)) {
-		bool new_format = (bool)atoi(result.c_str());
-		if (new_format)
-			VIDEO_OPTIONS().Value().formatDpp = 0;
-		else
-			VIDEO_OPTIONS().Value().formatDpp = 1;
-	}
+	if (VideoConfig.Read(paramName, &result))
+		VIDEO_OPTIONS().Value().formatDpp = atoi(result.c_str());
 			
 	if(VIDEO_OPTIONS().Value().in_server_db != L"" && VIDEO_OPTIONS().Value().in_database != L"")
 		this->RegisteredDatabase = new VRegisteredDatabase(L"video_db", VIDEO_OPTIONS().Value().in_server_db, VIDEO_OPTIONS().Value().in_database, L"");
@@ -320,6 +315,9 @@ VMainFrame::~VMainFrame()
 	if(this->RegisteredDatabase)
 		delete RegisteredDatabase;
 
+	//FixMe: Сделать нормальное закрывание потока
+	//Просто не закрываем процесс
+	/*
 	{
 		//wxCriticalSectionLocker enter(m_pThreadCScoordinates);
 		if (coordinates)
@@ -332,27 +330,31 @@ VMainFrame::~VMainFrame()
 	{
 		if (dpp)
 		{
-			//dpp->TestDestroy();
+			dpp->TestDestroy();
 			dpp->Kill();
 		}
-	}
+	}*/
 }
 
 void VMainFrame::OnCompleteDppThread(wxThreadEvent & event)
 {
+	//FixMe: Сделать нормальное закрывание потока
+	/*
 	if (dpp)
 	{
 		dpp->Delete();
 		dpp = 0;
-	}
+	}*/
 }
 
 void VMainFrame::OnCompleteCoordThread(wxThreadEvent & event)
 {
+	//FixMe: Сделать нормальное закрывание потока
+	/*
 	if (coordinates) {
 		coordinates->Delete();
 		coordinates = 0; 
-	}
+	}*/
 }
 
 /// Настраивает меню
@@ -460,7 +462,7 @@ void VMainFrame::OnProperties(wxCommandEvent& event)
 		VideoConfig.Write("shiftCoordinateViewer", VIDEO_OPTIONS().Value().shiftCoordinateViewer);
 		VideoConfig.Write("shiftCoordinateSpeedPositive", VIDEO_OPTIONS().Value().shiftCoordinateSpeedPositive);
 		VideoConfig.Write("shiftCoordinateSpeedNegative", VIDEO_OPTIONS().Value().shiftCoordinateSpeedNegative);
-		VideoConfig.Write("formarDpp", (int) VIDEO_OPTIONS().Value().formatDpp);
+		VideoConfig.Write("formatDpp", VIDEO_OPTIONS().Value().formatDpp);
 		//Проверка подключения к БД
 		if(this->RegisteredDatabase)
 			delete RegisteredDatabase;
@@ -471,24 +473,24 @@ void VMainFrame::OnProperties(wxCommandEvent& event)
 			this->RegisteredDatabase = 0;
 		if(VIDEO_OPTIONS().Value().ip_udp != L"" && VIDEO_OPTIONS().Value().port_udp > -1)
 		{
-			if(coordinates)
+			/*if(coordinates)
 			{
 				//wxCriticalSectionLocker enter(m_pThreadCScoordinates);
 				coordinates->Delete();
 				coordinates = 0;
-			}
+			}*/
 			coordinates = new VCoordinatesThread(this, wstring_to_string(VIDEO_OPTIONS().Value().ip_udp), VIDEO_OPTIONS().Value().port_udp);
 			if(coordinates->Run() != wxTHREAD_NO_ERROR)
 			{
-				delete coordinates;
-				coordinates = 0;
+				/*delete coordinates;
+				coordinates = 0;*/
 			}
 		}
 		else
 		{
-			if(coordinates)
+			/*if(coordinates)
 				coordinates->Delete();
-			coordinates = 0;
+			coordinates = 0;*/
 		}
 		//!!!Времянка, чтобы изменить настройки. Неправильно закрывается поток
 		/*if(com != L"")

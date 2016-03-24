@@ -219,8 +219,9 @@ VCameraControl::VCameraControl(VCameraBase * camera_props, wxWindow* parent, int
 VCameraControl::~VCameraControl()
 {
 	*existing = false;
-	if(capture && capture->TestDestroy())
-		capture->Kill();
+	//FixMe: Сделать нормальное закрывание потока
+	/*if(capture && capture->TestDestroy())
+		capture->Kill();*/
 }
 
 /// Возвращает размер
