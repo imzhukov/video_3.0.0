@@ -181,7 +181,9 @@ wxThread::ExitCode VCodeDPPThread::Entry()
 				continue;
 
 			//Выбирае обработку в зависимости от протокола (новый/старый)
-			if(VIDEO_OPTIONS().Value().formatDpp == 0) {
+			switch (VIDEO_OPTIONS().Value().formatDpp) {
+			case 0:
+			{
 				if (indxCodeDppPtr == 3)
 				{
 					checkSum = codeDppPtr[0] + codeDppPtr[1] + codeDppPtr[2] + codeDppPtr[3] + 83 + 4;
@@ -213,7 +215,9 @@ wxThread::ExitCode VCodeDPPThread::Entry()
 					indxCodeDppPtr = 0;
 				}
 			}
-			else if (VIDEO_OPTIONS().Value().formatDpp == 1) {
+			break;
+			case 1:
+			{
 				if (bufLen == 1)
 				{
 					if (!((buf[0] | 0x3F) ^ 0x3F))
@@ -234,6 +238,8 @@ wxThread::ExitCode VCodeDPPThread::Entry()
 						tmpCodeDpp = 0;
 					}
 				}
+			}
+			break;
 			}
 /*		if(hCom->is_open())
 		hCom->async_read_some(boost::asio::buffer(&buf, 1), 

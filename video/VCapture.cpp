@@ -92,7 +92,7 @@ void VCapture::ShowPosition(unsigned char * bufDataWithPos, int bufDataWithPosLe
 				if(subtitle.find(L"%л")!=std::string::npos)
 				{
 					wchar_t m_str [8] = L"";
-					swprintf(m_str, 7, L"%i", CURRENT_POSITION().Value().m);
+					swprintf(m_str, 7, L"%.0f", CURRENT_POSITION().Value().m);
 					subtitle.replace(subtitle.find(L"%л"), 2, m_str);
 				}
 				if(subtitle.find(L"%оепецнм")!=std::string::npos)

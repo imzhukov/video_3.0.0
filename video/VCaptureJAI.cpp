@@ -150,55 +150,56 @@ bool VCaptureJAI::OpenFactoryAndCamera()
 
 void VCaptureJAI::StreamCBFunc(J_tIMAGE_INFO * pAqImageInfo)
 {
-        // Here we want to read a certain pixel value from the image:
-        // In order to do so we need to convert the image from Raw to Image (to interpolate Bayer
-        // if needed and unpack the Packed pixel formats as well)
- 
-        // Allocate the buffer to hold converted the image. (We only want to do this once for performance reasons)
-        if (m_CnvImageInfo.pImageBuffer == NULL)
-        {
-            if (J_Image_Malloc(pAqImageInfo, &m_CnvImageInfo) != J_ST_SUCCESS)
-                return;
-        }
+	// Here we want to read a certain pixel value from the image:
+	// In order to do so we need to convert the image from Raw to Image (to interpolate Bayer
+	// if needed and unpack the Packed pixel formats as well)
 
-        if (m_CnvImageInfo.pImageBuffer != NULL)
-        {
-            // Convert the raw image to "normalized" image format
-            if (J_Image_FromRawToImage(pAqImageInfo, &m_CnvImageInfo) == J_ST_SUCCESS)
-            {
-                // Now we can read the pixel value
-                POINT pt;
-                //EnterCriticalSection(&m_CriticalSection);
-                pt.x = 10;
-                pt.y = 10;
-                //LeaveCriticalSection(&m_CriticalSection);
+	// Allocate the buffer to hold converted the image. (We only want to do this once for performance reasons)
+	if (m_CnvImageInfo.pImageBuffer == NULL)
+	{
+		if (J_Image_Malloc(pAqImageInfo, &m_CnvImageInfo) != J_ST_SUCCESS)
+			return;
+	}
 
-                PIXELVALUE pixelValue;
+	if (m_CnvImageInfo.pImageBuffer != NULL)
+	{
+		// Convert the raw image to "normalized" image format
+		if (J_Image_FromRawToImage(pAqImageInfo, &m_CnvImageInfo) == J_ST_SUCCESS)
+		{
+			/*
+			// Now we can read the pixel value
+			POINT pt;
+			//EnterCriticalSection(&m_CriticalSection);
+			pt.x = 10;
+			pt.y = 10;
+			//LeaveCriticalSection(&m_CriticalSection);
 
-                if (J_Image_GetPixel(&m_CnvImageInfo, &pt, &pixelValue) == J_ST_SUCCESS)
-                {
-                    // Copy the pixel type and value so we can display it in the UI thread context
-                    //EnterCriticalSection(&m_CriticalSection);
-                    m_PixelType = m_CnvImageInfo.iPixelType;
-                    m_PixelValue = pixelValue;
-                    //LeaveCriticalSection(&m_CriticalSection);
-                }
-                else
-                {
-                    // Copy the pixel type and value so we can display it in the UI thread context
-                    //EnterCriticalSection(&m_CriticalSection);
-                    m_PixelType = m_CnvImageInfo.iPixelType;
-                    pixelValue.PixelValueUnion.BGR48Type.RValue = 0;
-                    pixelValue.PixelValueUnion.BGR48Type.GValue = 0;
-                    pixelValue.PixelValueUnion.BGR48Type.BValue = 0;
-                    m_PixelValue = pixelValue;
-                    //LeaveCriticalSection(&m_CriticalSection);
-                }
-				int qqq = m_PixelValue.PixelValueUnion.Mono8Type.Value;
-				qqq++;
-            }
-        }
- }
+			PIXELVALUE pixelValue;
+
+			if (J_Image_GetPixel(&m_CnvImageInfo, &pt, &pixelValue) == J_ST_SUCCESS)
+			{
+				// Copy the pixel type and value so we can display it in the UI thread context
+				//EnterCriticalSection(&m_CriticalSection);
+				m_PixelType = m_CnvImageInfo.iPixelType;
+				m_PixelValue = pixelValue;
+				//LeaveCriticalSection(&m_CriticalSection);
+			}
+			else
+			{
+				// Copy the pixel type and value so we can display it in the UI thread context
+				//EnterCriticalSection(&m_CriticalSection);
+				m_PixelType = m_CnvImageInfo.iPixelType;
+				pixelValue.PixelValueUnion.BGR48Type.RValue = 0;
+				pixelValue.PixelValueUnion.BGR48Type.GValue = 0;
+				pixelValue.PixelValueUnion.BGR48Type.BValue = 0;
+				m_PixelValue = pixelValue;
+				//LeaveCriticalSection(&m_CriticalSection);
+			}
+			int qqq = m_PixelValue.PixelValueUnion.Mono8Type.Value;
+			qqq++;*/
+		}
+	}
+}
 
 /// Деструктор
 VCaptureJAI::~VCaptureJAI()
